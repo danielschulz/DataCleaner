@@ -11,10 +11,12 @@ public class FileUtils {
 
         if (null != prefix) {
 
+            // pre precess prefix to "./folder/" -> "folder/"
             if (prefix.startsWith("./")) {
                 prefix = getFileNameWithUnixPrefix("", prefix);
             }
 
+            // process file path ending
             if (0 < prefix.length() && fileName.startsWith(prefix)) {
                 return fileName;
 
@@ -24,12 +26,17 @@ public class FileUtils {
             } else {
                 if (0 < prefix.length() && 0 < fileName.length()) {
                     return prefix + "/" + fileName;
-                } else {
-                    return "";
+
+                } else if (0 == prefix.length() && 0 < fileName.length()) {
+                    return fileName;
+
+                } else if (0 < prefix.length() && 0 == fileName.length()) {
+                    return prefix.endsWith("/") ? prefix : prefix + "/";
                 }
             }
-        } else {
-            return fileName;
         }
+
+        return fileName;
+
     }
 }

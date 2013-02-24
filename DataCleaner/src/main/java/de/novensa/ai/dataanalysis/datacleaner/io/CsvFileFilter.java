@@ -1,5 +1,7 @@
 package de.novensa.ai.dataanalysis.datacleaner.io;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
 import java.io.FileFilter;
 
@@ -10,7 +12,7 @@ import java.io.FileFilter;
  */
 public class CsvFileFilter implements FileFilter {
 
-    private static final String DEFAULT_FILE_ENDING = ".csv";
+    private static final String DEFAULT_FILE_ENDING = "csv";
 
     @Override
     public boolean accept(File file) {
@@ -18,7 +20,7 @@ public class CsvFileFilter implements FileFilter {
         if (null != file) {
 
             String fileName = file.getName();
-            return null != fileName && fileName.toLowerCase().endsWith(DEFAULT_FILE_ENDING);
+            return FilenameUtils.isExtension(fileName, DEFAULT_FILE_ENDING);
         }
 
         return false;

@@ -8,14 +8,23 @@ public class FileUtilsTest extends TestCase {
 
         assertEquals("",
                 FileUtils.getFileNameWithUnixPrefix("", ""));
+        assertEquals("abc.xyz",
+                FileUtils.getFileNameWithUnixPrefix("", "abc.xyz"));
+        assertEquals("abc/",
+                FileUtils.getFileNameWithUnixPrefix("abc", ""));
+        assertEquals("abc/",
+                FileUtils.getFileNameWithUnixPrefix("abc/", ""));
+
         assertEquals("folder/abc.tar",
                 FileUtils.getFileNameWithUnixPrefix("folder", "abc.tar"));
         assertEquals("folder/abc.tar.bz2",
                 FileUtils.getFileNameWithUnixPrefix("folder", "abc.tar.bz2"));
+
         assertEquals("folder/abc.tar.bz2",
                 FileUtils.getFileNameWithUnixPrefix("./folder", "abc.tar.bz2"));
         assertEquals("folder.subfolder/abc.tar.bz2",
                 FileUtils.getFileNameWithUnixPrefix("folder.subfolder", "abc.tar.bz2"));
+
         assertEquals("abc.tar.bz2",
                 FileUtils.getFileNameWithUnixPrefix(null, "abc.tar.bz2"));
     }
