@@ -1,6 +1,6 @@
 package de.novensa.ai.dataanalysis.datacleaner.io;
 
-import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.PrivateConstants;
+import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Context;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionInstance;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionStrategy;
 import de.novensa.ai.dataanalysis.datacleaner.util.FileUtils;
@@ -18,42 +18,45 @@ import java.util.List;
  *
  * @author Daniel Schulz
  */
-public class ExtractArchives {
+public class ExtractArchives extends Context {
+
+    private final Context context;
 
     private static final FileFilter CSV_FILE_FILTER = new CsvFileFilter();
-    private static final int BUFFER_SIZE = 2048;
 
-    // FIX ME
-    // PrivateConstants are not shared. It is a one to one sub class of constants:
-    // please use Constants and change path declarations to fit your working directory
-    // and archive (the archive is located in the root of your working directory)
-    private static String wd = PrivateConstants.WORKING_DIRECTORY;
-    private static String fileIn = PrivateConstants.ARCHIVE_FILE_IN_WORKING_DIRECTORY;
-
-    private static String fileMedianOut = FilenameUtils.removeExtension(fileIn);
-    private static String fileFinalOut = FilenameUtils.removeExtension(fileMedianOut);
-
-
-    public static ExtractionDeletionInstance extract() throws IOException {
-        return extract(ExtractionDeletionStrategy.DEFAULT, CSV_FILE_FILTER);
+    public ExtractArchives(Context context) {
+        this.context = context;
     }
 
-    public static ExtractionDeletionInstance extract(ExtractionDeletionStrategy extractionDeletionStrategy,
-                                                     FileFilter fileFilter) throws IOException {
+    public ExtractionDeletionInstance extract(String workingDirectory,
+                                              String fileWithinWorkingDirectory)
+            throws IOException {
+
+        return extract(workingDirectory, fileWithinWorkingDirectory, ExtractionDeletionStrategy.DEFAULT, CSV_FILE_FILTER);
+    }
+
+    public ExtractionDeletionInstance extract(String workingDirectory,
+                                              String fileWithinWorkingDirectory,
+                                              ExtractionDeletionStrategy extractionDeletionStrategy,
+                                              FileFilter fileFilter)
+            throws IOException {
+
         // TODO: add NIO here
         // TODO: prove stream-in-stream solution
 
-        final File fileMedian = new File(wd + fileMedianOut);
-        final File fileFinal = new File(wd + fileFinalOut);
+        final String fileMedianOut = FilenameUtils.removeExtension(fileWithinWorkingDirectory);
+        final String fileFinalOut = FilenameUtils.removeExtension(fileMedianOut);
+        final File fileMedian = new File(workingDirectory + fileMedianOut);
+        final File fileFinal = new File(workingDirectory + fileFinalOut);
 
         // extract *.tar.bz2 -> *.tar
-        FileInputStream inMedian = new FileInputStream(wd + fileIn);
+        FileInputStream inMedian = new FileInputStream(workingDirectory + fileWithinWorkingDirectory);
         BZip2CompressorInputStream bzIn = new BZip2CompressorInputStream(inMedian);
 
         byte[] buffer = new byte[BUFFER_SIZE];
         FileOutputStream outMedian = new FileOutputStream(fileMedian);
 
-        int n = 0;
+        int n;
         while (-1 != (n = bzIn.read(buffer))) {
             outMedian.write(buffer, 0, n);
         }
@@ -63,7 +66,7 @@ public class ExtractArchives {
 
 
         // extract *.tar -> *-folder
-        FileInputStream inFinal = new FileInputStream(wd + fileMedianOut);
+        FileInputStream inFinal = new FileInputStream(workingDirectory + fileMedianOut);
         BufferedInputStream bufferedInputStream = new BufferedInputStream(inFinal);
         BufferedOutputStream bufferedOutputStream = null;
         TarArchiveInputStream tarArchiveInputStream = new TarArchiveInputStream(bufferedInputStream);
@@ -82,12 +85,13 @@ public class ExtractArchives {
                 String fileName = FileUtils.getFileNameWithUnixPrefix(folderName_local, entry.getName());
 
                 if (!isFilePatternToIgnore(folderName_local, fileName)) {
-                    File output = new File(wd, fileName);
+                    File output = new File(workingDirectory, fileName);
 
                     if (entry.isDirectory()) {
                         folders.add(output);
 
                         if (!output.exists()) {
+                            //noinspection ResultOfMethodCallIgnored
                             output.mkdirs();
                         }
                     } else if (fileFilter.accept(output)) {
@@ -112,7 +116,7 @@ public class ExtractArchives {
         }
 
 
-        // ExractionDeletionStrategy: eds
+        // ExtractionDeletionStrategy: eds
         // up from here is just responsible to delete unwanted files in the end
         ExtractionDeletionStrategy eds = extractionDeletionStrategy;
         if (null == extractionDeletionStrategy ||
@@ -121,7 +125,7 @@ public class ExtractArchives {
             eds = ExtractionDeletionStrategy.DELETE_MEDIAN_EXTRACTION_LEVEL;
         }
 
-        return new ExtractionDeletionInstance(eds, folders, files, fileMedian, fileFinal);
+        return new ExtractionDeletionInstance(eds, workingDirectory, folders, files, fileMedian, fileFinal);
     }
 
     private static boolean isFilePatternToIgnore(String containingFolder, String fileName) {
@@ -134,5 +138,11 @@ public class ExtractArchives {
         }
 
         return false;
+    }
+
+
+    @Override
+    public Context getContext() {
+        return this.context.getContext();
     }
 }

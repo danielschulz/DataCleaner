@@ -12,6 +12,7 @@ public class SkyContext extends Context {
 
     private File workingDir = new File("./");
 
+    @SuppressWarnings("UnusedDeclaration")
     public File getWorkingDir() {
         return workingDir;
     }
@@ -23,6 +24,7 @@ public class SkyContext extends Context {
     public SkyContext() {
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public SkyContext(String workingDir) {
 
         if (null != workingDir) {

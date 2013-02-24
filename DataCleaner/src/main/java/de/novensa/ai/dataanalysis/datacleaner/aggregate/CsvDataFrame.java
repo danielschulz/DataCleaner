@@ -21,6 +21,7 @@ public class CsvDataFrame {
         this.data = data;
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public String getHeader(int i) {
 
         if (0 > i && i >= this.header.size()) {
@@ -36,6 +37,7 @@ public class CsvDataFrame {
      * @param column The specific column, date, or feature from that given item/instance
      * @return The String from that cell
      */
+    @SuppressWarnings("UnusedDeclaration")
     public String getDate(int row, int column) {
 
         if (0 > row && row >= this.data.size()) {
@@ -49,12 +51,24 @@ public class CsvDataFrame {
         return this.data.get(row).get(column);
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public List<String> getHeader() {
         return header;
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public List<List<String>> getData() {
         return data;
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    public List<String> getDataItem(int row) {
+
+        if (0 > row && row >= this.data.size()) {
+            throw new ArrayIndexOutOfBoundsException(ErrorMessages.ARRAY_INDEX_OUT_OF_BOUNDS_ON_LOAD_ROW);
+        }
+
+        return this.data.get(row);
     }
 
     public static CsvDataFrame getCsvDataFrame(CSVReader<List<String>> reader) throws IOException {
@@ -62,7 +76,6 @@ public class CsvDataFrame {
         List<String> header = reader.readHeader();
         List<List<String>> data = reader.readAll();
 
-        CsvDataFrame result = new CsvDataFrame(header, data);
-        return result;
+        return new CsvDataFrame(header, data);
     }
 }

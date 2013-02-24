@@ -14,12 +14,15 @@ import java.util.List;
 public class ExtractionDeletionInstance {
 
     ExtractionDeletionStrategy extractionDeletionStrategy;
-    List<File> folders;
-    List<File> files;
-    final File fileMedian;
-    final File fileFinal;
+
+    private final String workingDirectory;
+    private List<File> folders;
+    private List<File> files;
+    private final File fileMedian;
+    private final File fileFinal;
 
     public ExtractionDeletionInstance(ExtractionDeletionStrategy extractionDeletionStrategy,
+                                      String workingDirectory,
                                       List<File> folders,
                                       List<File> files,
                                       File fileMedian,
@@ -32,6 +35,7 @@ public class ExtractionDeletionInstance {
             throw new IllegalArgumentException(ErrorMessages.EXTRACTION_DELETION_STRATEGY_NOT_ALLOWED_IN_INSTANCE);
         }
 
+        this.workingDirectory = workingDirectory;
         this.folders = folders;
         this.files = files;
 
@@ -47,6 +51,7 @@ public class ExtractionDeletionInstance {
                 ExtractionDeletionStrategy.DELETE_EVERYTHING.equals(extractionDeletionStrategy)) {
 
             if (fileMedian.exists() && fileMedian.canWrite()) {
+                //noinspection ResultOfMethodCallIgnored
                 fileMedian.delete();
             }
         }
@@ -69,6 +74,7 @@ public class ExtractionDeletionInstance {
     private void delete(File f) {
 
         if (f.exists() && f.canWrite()) {
+            //noinspection ResultOfMethodCallIgnored
             f.delete();
         }
     }
@@ -79,22 +85,31 @@ public class ExtractionDeletionInstance {
     }
 
 
+    @SuppressWarnings("UnusedDeclaration")
     public ExtractionDeletionStrategy getExtractionDeletionStrategy() {
         return extractionDeletionStrategy;
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public void setExtractionDeletionStrategy(ExtractionDeletionStrategy extractionDeletionStrategy) {
         this.extractionDeletionStrategy = extractionDeletionStrategy;
     }
 
+    public String getWorkingDirectory() {
+        return workingDirectory;
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
     public File getFileMedian() {
         return fileMedian;
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public File getFileFinal() {
         return fileFinal;
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public List<File> getFolders() {
         return folders;
     }
