@@ -1,5 +1,6 @@
 package de.novensa.ai.dataanalysis.datacleaner.io;
 
+import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.PrivateConstants;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionInstance;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionStrategy;
 import de.novensa.ai.dataanalysis.datacleaner.util.FileUtils;
@@ -22,8 +23,12 @@ public class ExtractArchives {
     private static final FileFilter CSV_FILE_FILTER = new CsvFileFilter();
     private static final int BUFFER_SIZE = 2048;
 
-    private static String wd = "/Users/Daniel/Downloads/MJFF-Data/";
-    private static String fileIn = "HumDynLog_APPLE_LGE_LGE_A0000028AF9C96_20111220_160634_20111220_170000.tar.bz2";
+    // FIX ME
+    // PrivateConstants are not shared. It is a one to one sub class of constants:
+    // please use Constants and change path declarations to fit your working directory
+    // and archive (the archive is located in the root of your working directory)
+    private static String wd = PrivateConstants.WORKING_DIRECTORY;
+    private static String fileIn = PrivateConstants.ARCHIVE_FILE_IN_WORKING_DIRECTORY;
 
     private static String fileMedianOut = FilenameUtils.removeExtension(fileIn);
     private static String fileFinalOut = FilenameUtils.removeExtension(fileMedianOut);
