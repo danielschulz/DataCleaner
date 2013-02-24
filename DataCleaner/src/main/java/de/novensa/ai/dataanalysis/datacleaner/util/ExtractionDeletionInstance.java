@@ -83,6 +83,10 @@ public class ExtractionDeletionInstance {
         return extractionDeletionStrategy;
     }
 
+    public void setExtractionDeletionStrategy(ExtractionDeletionStrategy extractionDeletionStrategy) {
+        this.extractionDeletionStrategy = extractionDeletionStrategy;
+    }
+
     public File getFileMedian() {
         return fileMedian;
     }

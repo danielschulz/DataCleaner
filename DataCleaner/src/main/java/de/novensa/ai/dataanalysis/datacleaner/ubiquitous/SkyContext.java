@@ -3,7 +3,7 @@ package de.novensa.ai.dataanalysis.datacleaner.ubiquitous;
 import java.io.File;
 
 /**
- * SkyContext devlivers all kind of information relevant through out the application.
+ * SkyContext delivers all kind of information relevant through out the application.
  *
  * @author Daniel Schulz
  */
