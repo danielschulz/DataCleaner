@@ -22,4 +22,12 @@ public class ErrorMessages {
 
     public static final String ODD_INSTANCE_STATE_IN_SUBROUTINE = "Something is not correct in the subroutine. One " +
             "or more fields clearly have wrong value(s). Please consult the documentation of the called method.";
+
+    public static final String INITIALIZED_FIELD_MUST_STAY_UNCHANGED = "The field you're trying to change was just " +
+            "initialized. These kind of information can only be set once and have to stay the same through out the " +
+            "process.";
+
+    public static final String NULL_INITIALIZATION_NOT_ALLOWED_HERE = "Please initialized this field with a value " +
+            "that is more information than null. This field may be initialization-once only and therefore need a gain " +
+            "of information in order to help through out the process.";
 }

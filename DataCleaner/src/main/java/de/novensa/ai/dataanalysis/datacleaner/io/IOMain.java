@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Hello world!
+ * The process starting by reading data from FS.
  *
  * @author Daniel Schulz
  */
@@ -30,6 +30,9 @@ public class IOMain extends Context {
         ExtractionDeletionInstance extractionDeletionInstance = extractor.extract(WORKING_DIRECTORY,
                 ARCHIVE_FILE_IN_WORKING_DIRECTORY);
         Map<String, CsvDataFrame> fileMap = csvLoader.exploreJustExtractedFiles(extractionDeletionInstance);
+
+        Map<String, CsvDataFrame> signatureSensitiveMap = csvLoader.makeSignatureSensitiveMap(fileMap);
+
 
         // clean minimal
         extractionDeletionInstance.clean();

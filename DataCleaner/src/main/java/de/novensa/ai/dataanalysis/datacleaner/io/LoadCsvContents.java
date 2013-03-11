@@ -8,6 +8,8 @@ import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvDataFrame;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Context;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.ErrorMessages;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionInstance;
+import org.javatuples.Pair;
+import org.javatuples.Tuple;
 
 import java.io.File;
 import java.io.FileReader;
@@ -80,5 +82,25 @@ public class LoadCsvContents extends Context {
     @Override
     public Context getContext() {
         return this.context.getContext();
+    }
+
+    /**
+     * Data coming in mapped by the data´s file name within the working directory and being mapped by their header.
+     * That way we aggregate all information according to the content rather than by source. The final mapping on
+     * outcome will be by technically header to all CSVs. This way we can aggregate the in-bucket-files later on.
+     * @param fileMap The file-names mapping from the extraction process
+     * @return The mapping by unique header
+     */
+    public Map<String, Pair<String, CsvDataFrame>> makeSignatureSensitiveMap(Map<String, CsvDataFrame> fileMap) {
+        Map<String, Pair<String, CsvDataFrame>> signatureSensitiveMap = new HashMap<String, Pair<String, CsvDataFrame>>();
+
+        String header;
+        for (String path : fileMap.keySet()) {
+            CsvDataFrame csvDataFrame = fileMap.get(path);
+            header = csvDataFrame.getHeaderSignature();
+            signatureSensitiveMap.put(header, new Pair<String, CsvDataFrame>(path, csvDataFrame));
+        }
+
+        return signatureSensitiveMap;
     }
 }
