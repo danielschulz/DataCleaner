@@ -9,7 +9,6 @@ import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Context;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.ErrorMessages;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionInstance;
 import org.javatuples.Pair;
-import org.javatuples.Tuple;
 
 import java.io.File;
 import java.io.FileReader;
@@ -36,7 +35,7 @@ public class LoadCsvContents extends Context {
      * @param extractionDeletionInstance The source to find the files
      * @return A Map from the file location to it's content
      */
-    public Map<String, CsvDataFrame> exploreJustExtractedFiles(
+    public Map<String, Pair<String, CsvDataFrame>> exploreJustExtractedFiles(
             ExtractionDeletionInstance extractionDeletionInstance) throws IOException {
 
         final String workingDirectoryPath = extractionDeletionInstance.getWorkingDirectory();
@@ -61,7 +60,7 @@ public class LoadCsvContents extends Context {
             }
         }
 
-        return resultMap;
+        return makeSignatureSensitiveMap(resultMap);
     }
 
     private static String surefireRelativePathPasting(String file,

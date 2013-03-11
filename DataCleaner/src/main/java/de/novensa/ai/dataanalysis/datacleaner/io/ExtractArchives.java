@@ -13,6 +13,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.commons.io.IOUtils.*;
+
 /**
  * Class for extracting archives.
  *
@@ -60,9 +62,9 @@ public class ExtractArchives extends Context {
         while (-1 != (n = bzIn.read(buffer))) {
             outMedian.write(buffer, 0, n);
         }
-        inMedian.close();
-        bzIn.close();
-        outMedian.close();
+        closeQuietly(inMedian);
+        closeQuietly(bzIn);
+        closeQuietly(outMedian);
 
 
         // extract *.tar -> *-folder
@@ -110,9 +112,9 @@ public class ExtractArchives extends Context {
         } finally {
             if (null != bufferedOutputStream) {
                 bufferedOutputStream.flush();
-                bufferedOutputStream.close();
+                closeQuietly(bufferedOutputStream);
             }
-            tarArchiveInputStream.close();
+            closeQuietly(tarArchiveInputStream);
         }
 
 
