@@ -4,6 +4,7 @@ import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvDataFrame;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Context;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.SkyContext;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionInstance;
+import org.javatuples.Pair;
 
 import java.io.IOException;
 import java.util.Map;
@@ -29,9 +30,8 @@ public class IOMain extends Context {
 
         ExtractionDeletionInstance extractionDeletionInstance = extractor.extract(WORKING_DIRECTORY,
                 ARCHIVE_FILE_IN_WORKING_DIRECTORY);
-        Map<String, CsvDataFrame> fileMap = csvLoader.exploreJustExtractedFiles(extractionDeletionInstance);
-
-        Map<String, CsvDataFrame> signatureSensitiveMap = csvLoader.makeSignatureSensitiveMap(fileMap);
+        Map<String, Pair<String, CsvDataFrame>> signatureSensitiveMap =
+                csvLoader.exploreJustExtractedFiles(extractionDeletionInstance);
 
 
         // clean minimal

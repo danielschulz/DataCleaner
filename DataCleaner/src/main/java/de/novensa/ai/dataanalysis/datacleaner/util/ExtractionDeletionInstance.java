@@ -64,7 +64,9 @@ public class ExtractionDeletionInstance {
                 delete(f);
             }
 
-            Collections.reverse(folders);
+            if (2 >= folders.size()) {
+                Collections.reverse(folders);
+            }
             for (File f : folders) {
                 delete(f);
             }
