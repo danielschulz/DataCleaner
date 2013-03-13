@@ -13,6 +13,7 @@ import java.util.List;
  *
  * @author Daniel Schulz
  */
+@SuppressWarnings("UnusedDeclaration")
 public class CsvDataFrame {
 
     private final List<String> header;
@@ -38,7 +39,7 @@ public class CsvDataFrame {
             signature.append(headerItem).append(PrivateConstants.HEADER_SIGNATURES_DELIMITER);
         }
 
-        return signature.substring(0, signature.length() - PrivateConstants.HEADER_SIGNATURES_DELIMITER.length()).toString();
+        return signature.substring(0, signature.length() - PrivateConstants.HEADER_SIGNATURES_DELIMITER.length());
     }
 
     @SuppressWarnings("UnusedDeclaration")
@@ -129,6 +130,7 @@ public class CsvDataFrame {
         if (null != this.patient) {
             throw new IllegalAccessException(ErrorMessages.INITIALIZED_FIELD_MUST_STAY_UNCHANGED);
         }
+        //noinspection ConstantConditions
         if (null == patient) {
             throw new IllegalArgumentException(ErrorMessages.NULL_INITIALIZATION_NOT_ALLOWED_HERE);
         }

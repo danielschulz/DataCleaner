@@ -1,5 +1,7 @@
 package de.novensa.ai.dataanalysis.datacleaner.ubiquitous;
 
+import java.io.File;
+
 /**
  * Put all error messages here.
  *
@@ -30,4 +32,12 @@ public class ErrorMessages {
     public static final String NULL_INITIALIZATION_NOT_ALLOWED_HERE = "Please initialized this field with a value " +
             "that is more information than null. This field may be initialization-once only and therefore need a gain " +
             "of information in order to help through out the process.";
+
+    private static final String FILENAME_INVALID = "The specified file name does not have either a valid extension or " +
+            "it does not exist within this directory. Please take a look at your working directory '%s' and the inner " +
+            "file: '%s'. This might fix the problem.";
+
+    public static String getFilenameInvalid(String workingDirectory, File filename) {
+        return String.format(FILENAME_INVALID, workingDirectory, filename.getName());
+    }
 }

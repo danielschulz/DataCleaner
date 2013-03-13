@@ -8,6 +8,7 @@ package de.novensa.ai.dataanalysis.datacleaner.aggregate;
  *
  * @author Daniel Schulz
  */
+@SuppressWarnings("UnusedDeclaration")
 public enum HealthState {
-    healthy, predictedPD, diagnosedPD;
+    healthy, predictedPD, diagnosedPD
 }

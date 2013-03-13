@@ -1,6 +1,7 @@
 package de.novensa.ai.dataanalysis.datacleaner.io;
 
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Context;
+import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.ErrorMessages;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionInstance;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionStrategy;
 import de.novensa.ai.dataanalysis.datacleaner.util.FileUtils;
@@ -31,14 +32,14 @@ public class ExtractArchives extends Context {
     }
 
     public ExtractionDeletionInstance extract(String workingDirectory,
-                                              String fileWithinWorkingDirectory)
+                                              File fileWithinWorkingDirectory)
             throws IOException {
 
         return extract(workingDirectory, fileWithinWorkingDirectory, ExtractionDeletionStrategy.DEFAULT, CSV_FILE_FILTER);
     }
 
     public ExtractionDeletionInstance extract(String workingDirectory,
-                                              String fileWithinWorkingDirectory,
+                                              File fileWithinWorkingDirectory,
                                               ExtractionDeletionStrategy extractionDeletionStrategy,
                                               FileFilter fileFilter)
             throws IOException {
@@ -46,13 +47,18 @@ public class ExtractArchives extends Context {
         // TODO: add NIO here
         // TODO: prove stream-in-stream solution
 
-        final String fileMedianOut = FilenameUtils.removeExtension(fileWithinWorkingDirectory);
+        final String fileMedianOut = FilenameUtils.removeExtension(fileWithinWorkingDirectory.getName());
         final String fileFinalOut = FilenameUtils.removeExtension(fileMedianOut);
+        if (null == fileMedianOut || null == fileFinalOut) {
+            throw new IllegalStateException(ErrorMessages.getFilenameInvalid(workingDirectory,
+                    fileWithinWorkingDirectory));
+        }
+
         final File fileMedian = new File(workingDirectory + fileMedianOut);
         final File fileFinal = new File(workingDirectory + fileFinalOut);
 
         // extract *.tar.bz2 -> *.tar
-        FileInputStream inMedian = new FileInputStream(workingDirectory + fileWithinWorkingDirectory);
+        FileInputStream inMedian = new FileInputStream(fileWithinWorkingDirectory);
         BZip2CompressorInputStream bzIn = new BZip2CompressorInputStream(inMedian);
 
         byte[] buffer = new byte[BUFFER_SIZE];

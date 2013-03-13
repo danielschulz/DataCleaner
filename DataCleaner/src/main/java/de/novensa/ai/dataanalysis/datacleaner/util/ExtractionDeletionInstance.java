@@ -3,8 +3,11 @@ package de.novensa.ai.dataanalysis.datacleaner.util;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.ErrorMessages;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+
+import static org.apache.commons.io.FileUtils.forceDelete;
 
 /**
  * The instance for later deletion of extracted items.
@@ -45,7 +48,7 @@ public class ExtractionDeletionInstance {
     }
 
 
-    public void clean() {
+    public void clean() throws IOException {
         // clean files
         if (ExtractionDeletionStrategy.DELETE_MEDIAN_EXTRACTION_LEVEL.equals(extractionDeletionStrategy) ||
                 ExtractionDeletionStrategy.DELETE_EVERYTHING.equals(extractionDeletionStrategy)) {
@@ -73,15 +76,15 @@ public class ExtractionDeletionInstance {
         }
     }
 
-    private void delete(File f) {
+    private void delete(File f) throws IOException {
 
         if (f.exists() && f.canWrite()) {
             //noinspection ResultOfMethodCallIgnored
-            f.delete();
+            forceDelete(f);
         }
     }
 
-    public void forceToCleanEverything() {
+    public void forceToCleanEverything() throws IOException {
         this.extractionDeletionStrategy = ExtractionDeletionStrategy.DELETE_EVERYTHING;
         clean();
     }
