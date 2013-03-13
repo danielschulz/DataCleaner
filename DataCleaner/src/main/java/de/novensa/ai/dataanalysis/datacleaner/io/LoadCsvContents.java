@@ -8,12 +8,10 @@ import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvDataFrame;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Context;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.ErrorMessages;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionInstance;
-import org.javatuples.Pair;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -37,15 +35,15 @@ public class LoadCsvContents extends Context {
      * @param extractionDeletionInstances The source to find the files
      * @return A Map from the file location to it's content
      */
-    public Map<String, Pair<String, CsvDataFrame>> exploreJustExtractedFiles(
+    public Map<String, HeaderSignatureSensitiveBucket> exploreJustExtractedFiles(
             List<ExtractionDeletionInstance> extractionDeletionInstances) throws IOException {
 
         CSVReaderBuilder builder;
         Map<String, CsvDataFrame> resultMap = new TreeMap<String, CsvDataFrame>();
 
         for (ExtractionDeletionInstance instance : extractionDeletionInstances) {
-            // final String workingDirectoryPath = instance.getWorkingDirectory();
-            // final int workingDirectoryLength = workingDirectoryPath.length();
+            final String workingDirectoryPath = instance.getWorkingDirectory();
+            final int workingDirectoryLength = workingDirectoryPath.length();
 
             for (File file : instance.getFiles()) {
 
@@ -60,10 +58,15 @@ public class LoadCsvContents extends Context {
                     CSVReader reader = builder.build();
 
                     //noinspection unchecked
-                    // String key = surefireRelativePathPasting(file.getCanonicalPath(), workingDirectoryPath, workingDirectoryLength);
+                    String key = surefireRelativePathPasting(file.getCanonicalPath(), workingDirectoryPath, workingDirectoryLength);
                     //noinspection unchecked
                     CsvDataFrame csvDataFrame = CsvDataFrame.getCsvDataFrame(reader);
-                    resultMap.put(csvDataFrame.getHeaderSignature(), csvDataFrame);
+
+                    if(!resultMap.containsKey(key)) {
+                        resultMap.put(key, csvDataFrame);
+                    } else {
+                        throw new IllegalStateException(ErrorMessages.getDuplicatedFileIdentification(key));
+                    }
 
                     fileReaderForBuilder.close();
                 }
@@ -101,14 +104,20 @@ public class LoadCsvContents extends Context {
      * @param fileMap The file-names mapping from the extraction process
      * @return The mapping by unique header
      */
-    public Map<String, Pair<String, CsvDataFrame>> makeSignatureSensitiveMap(Map<String, CsvDataFrame> fileMap) {
-        Map<String, Pair<String, CsvDataFrame>> signatureSensitiveMap = new HashMap<String, Pair<String, CsvDataFrame>>();
+    public Map<String, HeaderSignatureSensitiveBucket> makeSignatureSensitiveMap(Map<String, CsvDataFrame> fileMap) {
+        Map<String, HeaderSignatureSensitiveBucket> signatureSensitiveMap =
+                new TreeMap<String, HeaderSignatureSensitiveBucket>();
 
         String header;
         for (String path : fileMap.keySet()) {
             CsvDataFrame csvDataFrame = fileMap.get(path);
             header = csvDataFrame.getHeaderSignature();
-            signatureSensitiveMap.put(header, new Pair<String, CsvDataFrame>(path, csvDataFrame));
+
+            if (signatureSensitiveMap.containsKey(header)) {
+                signatureSensitiveMap.get(header).addPair(path, csvDataFrame);
+            } else {
+                signatureSensitiveMap.put(header, new HeaderSignatureSensitiveBucket(path, csvDataFrame));
+            }
         }
 
         return signatureSensitiveMap;

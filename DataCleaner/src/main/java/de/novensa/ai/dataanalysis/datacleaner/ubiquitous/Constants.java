@@ -5,12 +5,10 @@ package de.novensa.ai.dataanalysis.datacleaner.ubiquitous;
  *
  * @author Daniel Schulz
  */
-@SuppressWarnings("UnusedDeclaration")
 public interface Constants {
 
     // semantic, work place constants
     public final static String WORKING_DIRECTORY = "~/Documents/";      // the folder all your data to read and write are in
-    public final static String ARCHIVE_FILE_IN_WORKING_DIRECTORY = "archive.tar.bz2";   // the first archive to extract information from
 
 
     // technical constants

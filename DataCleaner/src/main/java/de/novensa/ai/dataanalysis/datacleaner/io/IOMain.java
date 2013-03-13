@@ -1,18 +1,14 @@
 package de.novensa.ai.dataanalysis.datacleaner.io;
 
-import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvDataFrame;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.*;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionInstance;
 import org.apache.commons.cli.*;
-import org.javatuples.Pair;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants.*;
 
 /**
  * The process starting by reading data from FS.
@@ -69,7 +65,7 @@ public class IOMain extends Context {
 
 
         @SuppressWarnings("UnusedDeclaration")
-        Map<String, Pair<String, CsvDataFrame>> signatureSensitiveMap =
+        Map<String, HeaderSignatureSensitiveBucket> signatureSensitiveMap =
                 csvLoader.exploreJustExtractedFiles(extractionDeletionInstances);
 
 

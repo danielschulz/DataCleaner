@@ -9,6 +9,7 @@ import java.io.File;
  */
 public class ErrorMessages {
 
+    // PUBLIC CONSTANTS TO USE RIGHT AWAY
     public static final String EXTRACTION_DELETION_STRATEGY_NOT_ALLOWED_IN_INSTANCE =
             "The ExtractionDeletionStrategy 'Default' is not allowed to be passed to the final instance! Please swap " +
                     "this on ExtractionDeletionInstance-creation by your implementation's default. In doubt please " +
@@ -33,6 +34,7 @@ public class ErrorMessages {
             "that is more information than null. This field may be initialization-once only and therefore need a gain " +
             "of information in order to help through out the process.";
 
+    // PRIVATE CONSTANTS TO USE VIA METHODS BENEATH
     private static final String FILENAME_INVALID = "The specified file name does not have either a valid extension or " +
             "it does not exist within this directory. Please take a look at your working directory '%s' and the inner " +
             "file: '%s'. This might fix the problem.";
@@ -44,6 +46,10 @@ public class ErrorMessages {
     private static final String WORKING_DIRECTORY_CANNOT_BE_FOUND = "The specified working directory '%s' cannot be " +
             "found. Please make sure it exists or can be created.";
 
+    private static final String DUPLICATED_FILE_IDENTIFICATION = "The file identification '%s' is not taken twice " +
+            "but must be unique.";
+
+    // METHODS
     public static String getFilenameInvalid(String workingDirectory, File filename) {
         return String.format(FILENAME_INVALID, workingDirectory, filename.getName());
     }
@@ -54,5 +60,9 @@ public class ErrorMessages {
 
     public static String getWorkingDirectoryCannotBeFound(String workingDirectory) {
         return String.format(WORKING_DIRECTORY_CANNOT_BE_FOUND, workingDirectory);
+    }
+
+    public static String getDuplicatedFileIdentification(String fileIdentification) {
+        return String.format(DUPLICATED_FILE_IDENTIFICATION, fileIdentification);
     }
 }

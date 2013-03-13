@@ -1,8 +1,8 @@
 package de.novensa.ai.dataanalysis.datacleaner.aggregate;
 
 import com.googlecode.jcsv.reader.CSVReader;
+import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.ErrorMessages;
-import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.PrivateConstants;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,10 +36,10 @@ public class CsvDataFrame {
     public String getHeaderSignature() {
         StringBuilder signature = new StringBuilder();
         for (String headerItem : this.header) {
-            signature.append(headerItem).append(PrivateConstants.HEADER_SIGNATURES_DELIMITER);
+            signature.append(headerItem).append(Constants.HEADER_SIGNATURES_DELIMITER);
         }
 
-        return signature.substring(0, signature.length() - PrivateConstants.HEADER_SIGNATURES_DELIMITER.length());
+        return signature.substring(0, signature.length() - Constants.HEADER_SIGNATURES_DELIMITER.length());
     }
 
     @SuppressWarnings("UnusedDeclaration")
