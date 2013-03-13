@@ -14,7 +14,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Get the contents of all CSV files.
@@ -32,38 +34,46 @@ public class LoadCsvContents extends Context {
 
     /**
      * Read files from your ExtractionDeletionInstance. The result will map the file's location to it's content.
-     * @param extractionDeletionInstance The source to find the files
+     * @param extractionDeletionInstances The source to find the files
      * @return A Map from the file location to it's content
      */
     public Map<String, Pair<String, CsvDataFrame>> exploreJustExtractedFiles(
-            ExtractionDeletionInstance extractionDeletionInstance) throws IOException {
-
-        final String workingDirectoryPath = extractionDeletionInstance.getWorkingDirectory();
-        final int workingDirectoryLength = workingDirectoryPath.length();
+            List<ExtractionDeletionInstance> extractionDeletionInstances) throws IOException {
 
         CSVReaderBuilder builder;
-        Map<String, CsvDataFrame> resultMap = new HashMap<String, CsvDataFrame>();
-        for (File file : extractionDeletionInstance.getFiles()) {
+        Map<String, CsvDataFrame> resultMap = new TreeMap<String, CsvDataFrame>();
 
-            if (file.exists() && file.canRead()) {
-                builder = new CSVReaderBuilder(new FileReader(file));
+        for (ExtractionDeletionInstance instance : extractionDeletionInstances) {
+            // final String workingDirectoryPath = instance.getWorkingDirectory();
+            // final int workingDirectoryLength = workingDirectoryPath.length();
 
-                builder.strategy(CSVStrategy.UK_DEFAULT);
+            for (File file : instance.getFiles()) {
 
-                //noinspection unchecked
-                builder.entryParser(DEFAULT_CSV_ENTRY_PARSER);
-                CSVReader reader = builder.build();
+                if (file.exists() && file.canRead()) {
+                    FileReader fileReaderForBuilder = new FileReader(file);
+                    builder = new CSVReaderBuilder(fileReaderForBuilder);
 
-                //noinspection unchecked
-                String key = surefireRelativePathPasting(file.getCanonicalPath(), workingDirectoryPath, workingDirectoryLength);
-                //noinspection unchecked
-                resultMap.put(key, CsvDataFrame.getCsvDataFrame(reader));
+                    builder.strategy(CSVStrategy.UK_DEFAULT);
+
+                    //noinspection unchecked
+                    builder.entryParser(DEFAULT_CSV_ENTRY_PARSER);
+                    CSVReader reader = builder.build();
+
+                    //noinspection unchecked
+                    // String key = surefireRelativePathPasting(file.getCanonicalPath(), workingDirectoryPath, workingDirectoryLength);
+                    //noinspection unchecked
+                    CsvDataFrame csvDataFrame = CsvDataFrame.getCsvDataFrame(reader);
+                    resultMap.put(csvDataFrame.getHeaderSignature(), csvDataFrame);
+
+                    fileReaderForBuilder.close();
+                }
             }
         }
 
         return makeSignatureSensitiveMap(resultMap);
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     private static String surefireRelativePathPasting(String file,
                                                       String workingDirectoryPath,
                                                       final int workingDirectoryLength) {

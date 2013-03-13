@@ -67,7 +67,7 @@ public class ExtractionDeletionInstance {
                 delete(f);
             }
 
-            if (2 >= folders.size()) {
+            if (2 <= folders.size()) {
                 Collections.reverse(folders);
             }
             for (File f : folders) {
@@ -100,6 +100,7 @@ public class ExtractionDeletionInstance {
         this.extractionDeletionStrategy = extractionDeletionStrategy;
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     public String getWorkingDirectory() {
         return workingDirectory;
     }

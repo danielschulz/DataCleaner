@@ -61,10 +61,6 @@ public class IOMain extends Context {
         for (File currentArchive : filesToExtract) {
             ExtractionDeletionInstance extractionDeletionInstance = extractor.extract(
                     getContext().getWorkingDir(), currentArchive);
-            @SuppressWarnings("UnusedDeclaration")
-            Map<String, Pair<String, CsvDataFrame>> signatureSensitiveMap =
-                    csvLoader.exploreJustExtractedFiles(extractionDeletionInstance);
-
             extractionDeletionInstances.add(extractionDeletionInstance);
 
             // clean minimal
@@ -72,7 +68,13 @@ public class IOMain extends Context {
         }
 
 
+        @SuppressWarnings("UnusedDeclaration")
+        Map<String, Pair<String, CsvDataFrame>> signatureSensitiveMap =
+                csvLoader.exploreJustExtractedFiles(extractionDeletionInstances);
+
+
         for (ExtractionDeletionInstance extractionDeletionInstance : extractionDeletionInstances) {
+
             // revert everything extracted to file system
             try {
                 extractionDeletionInstance.forceToCleanEverything();
