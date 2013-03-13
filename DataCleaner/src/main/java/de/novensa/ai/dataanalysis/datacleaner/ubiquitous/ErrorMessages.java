@@ -37,7 +37,22 @@ public class ErrorMessages {
             "it does not exist within this directory. Please take a look at your working directory '%s' and the inner " +
             "file: '%s'. This might fix the problem.";
 
+    private static final String FILE_STRUCTURE_FROM_EXPLODED_ARCHIVE_CANNOT_BE_CLEANED = "The file structure '%s' " +
+            "from your extracted archive cannot be cleaned. This is most likely due to a file handle on this " +
+            "file or folder.";
+
+    private static final String WORKING_DIRECTORY_CANNOT_BE_FOUND = "The specified working directory '%s' cannot be " +
+            "found. Please make sure it exists or can be created.";
+
     public static String getFilenameInvalid(String workingDirectory, File filename) {
         return String.format(FILENAME_INVALID, workingDirectory, filename.getName());
+    }
+
+    public static String getFileStructureFromExplodedArchiveCannotBeCleaned(File filename) {
+        return String.format(FILE_STRUCTURE_FROM_EXPLODED_ARCHIVE_CANNOT_BE_CLEANED, filename);
+    }
+
+    public static String getWorkingDirectoryCannotBeFound(String workingDirectory) {
+        return String.format(WORKING_DIRECTORY_CANNOT_BE_FOUND, workingDirectory);
     }
 }

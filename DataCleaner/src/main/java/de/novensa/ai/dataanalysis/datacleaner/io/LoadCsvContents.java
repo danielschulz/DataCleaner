@@ -55,8 +55,9 @@ public class LoadCsvContents extends Context {
                 CSVReader reader = builder.build();
 
                 //noinspection unchecked
-                resultMap.put(surefireRelativePathPasting(file.getPath(), workingDirectoryPath, workingDirectoryLength),
-                        CsvDataFrame.getCsvDataFrame(reader));
+                String key = surefireRelativePathPasting(file.getCanonicalPath(), workingDirectoryPath, workingDirectoryLength);
+                //noinspection unchecked
+                resultMap.put(key, CsvDataFrame.getCsvDataFrame(reader));
             }
         }
 
@@ -65,7 +66,7 @@ public class LoadCsvContents extends Context {
 
     private static String surefireRelativePathPasting(String file,
                                                       String workingDirectoryPath,
-                                                      int workingDirectoryLength) {
+                                                      final int workingDirectoryLength) {
 
         if (null == file || null == workingDirectoryPath || workingDirectoryLength < 0 ||
                 workingDirectoryLength >= file.length() || !file.startsWith(workingDirectoryPath)) {
