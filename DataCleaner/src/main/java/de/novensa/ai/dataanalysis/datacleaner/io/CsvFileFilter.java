@@ -12,7 +12,7 @@ import java.io.FileFilter;
  */
 public class CsvFileFilter implements FileFilter {
 
-    private static final String DEFAULT_FILE_ENDING = "csv";
+    public static final String DEFAULT_FILE_ENDING = "csv";
 
     @Override
     public boolean accept(File file) {

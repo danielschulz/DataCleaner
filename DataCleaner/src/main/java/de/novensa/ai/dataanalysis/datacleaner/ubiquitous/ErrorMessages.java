@@ -9,7 +9,18 @@ import java.io.File;
  */
 public class ErrorMessages {
 
+    // directory type strings
+    public final static String WORKING_DIRECTOY = "working";
+    public final static String RESULTS_DIRECTOY = "resutls";
+
     // PUBLIC CONSTANTS TO USE RIGHT AWAY
+    public static final String NULL_VALUES_NOT_ALLOWED_HERE = "It is not senseful to work with null values at this " +
+            "point. The data is needed for further prcessing and therefore have to be know.";
+
+    private static final String ARGUMENT_DIRECTORY_NOT_FOUND_IN_ARGUMENTS = "The program argument to define the " +
+            "%s directory for the application could not be found. Please start the program with an %s " +
+            Constants.WORKING_DIRECTORY_OPTION_ARGUMENT_NAME + " to identify the directory to find the source files.";
+
     public static final String EXTRACTION_DELETION_STRATEGY_NOT_ALLOWED_IN_INSTANCE =
             "The ExtractionDeletionStrategy 'Default' is not allowed to be passed to the final instance! Please swap " +
                     "this on ExtractionDeletionInstance-creation by your implementation's default. In doubt please " +
@@ -49,6 +60,9 @@ public class ErrorMessages {
     private static final String DUPLICATED_FILE_IDENTIFICATION = "The file identification '%s' is not taken twice " +
             "but must be unique.";
 
+    public static final String LIST_ITEM_HAS_TO_BE_PRESENT_HERE = "The list item one (no. zero) has to be present " +
+            "at this time and cannot be null either.";
+
     // METHODS
     public static String getFilenameInvalid(String workingDirectory, File filename) {
         return String.format(FILENAME_INVALID, workingDirectory, filename.getName());
@@ -64,5 +78,9 @@ public class ErrorMessages {
 
     public static String getDuplicatedFileIdentification(String fileIdentification) {
         return String.format(DUPLICATED_FILE_IDENTIFICATION, fileIdentification);
+    }
+
+    public static String getArgumentDirectoryNotFoundInArguments(final String directoryType) {
+        return String.format(ARGUMENT_DIRECTORY_NOT_FOUND_IN_ARGUMENTS, directoryType);
     }
 }

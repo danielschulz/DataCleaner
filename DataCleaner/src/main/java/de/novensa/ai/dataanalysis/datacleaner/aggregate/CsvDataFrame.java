@@ -12,19 +12,22 @@ import java.util.List;
  * think of a data frame as a table with different typed columns.
  *
  * @author Daniel Schulz
+ *
+ * @param <T> The type of data in all cells
  */
 @SuppressWarnings("UnusedDeclaration")
-public class CsvDataFrame {
+public class CsvDataFrame<T> {
 
     private final List<String> header;
-    private final List<List<String>> data;
+    private final CsvMatrix<T> data;
 
     private String patient;
+    private boolean femalePatient;
     private HealthState healthState;
     private float healthStateSafeness = -1f;
 
 
-    public CsvDataFrame(List<String> header, List<List<String>> data) {
+    public CsvDataFrame(List<String> header, CsvMatrix<T> data) {
         this.header = header;
         this.data = data;
     }
@@ -43,7 +46,7 @@ public class CsvDataFrame {
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    public String getHeader(int i) {
+    public String getHeader(final int i) {
 
         if (0 > i && i >= this.header.size()) {
             throw new ArrayIndexOutOfBoundsException(ErrorMessages.ARRAY_INDEX_OUT_OF_BOUNDS_ON_LOAD_COLUMN);
@@ -59,17 +62,17 @@ public class CsvDataFrame {
      * @return The String from that cell
      */
     @SuppressWarnings("UnusedDeclaration")
-    public String getDate(int row, int column) {
+    public T getDate(final int row, final int column) {
 
-        if (0 > row && row >= this.data.size()) {
+        if (0 > row && row >= this.data.getRowSize()) {
             throw new ArrayIndexOutOfBoundsException(ErrorMessages.ARRAY_INDEX_OUT_OF_BOUNDS_ON_LOAD_ROW);
         }
 
-        if (0 > column && column >= this.data.get(row).size()) {
+        if (0 > column && column >= this.data.getRow(row).getColumnSize()) {
             throw new ArrayIndexOutOfBoundsException(ErrorMessages.ARRAY_INDEX_OUT_OF_BOUNDS_ON_LOAD_COLUMN);
         }
 
-        return this.data.get(row).get(column);
+        return this.data.getRow(row).getCell(column);
     }
 
     @SuppressWarnings("UnusedDeclaration")
@@ -78,24 +81,24 @@ public class CsvDataFrame {
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    public List<List<String>> getData() {
+    public CsvMatrix<T> getData() {
         return data;
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    public List<String> getDataItem(int row) {
+    public CsvMatrixRow<T> getDataItem(int row) {
 
-        if (0 > row && row >= this.data.size()) {
+        if (0 > row && row >= this.data.getRowSize()) {
             throw new ArrayIndexOutOfBoundsException(ErrorMessages.ARRAY_INDEX_OUT_OF_BOUNDS_ON_LOAD_ROW);
         }
 
-        return this.data.get(row);
+        return this.data.getRow(row);
     }
 
-    public static CsvDataFrame getCsvDataFrame(CSVReader<List<String>> reader) throws IOException {
+    public static <T> CsvDataFrame getCsvDataFrame(final CSVReader<CsvMatrixRow<T>> reader) throws IOException {
 
         List<String> header = reader.readHeader();
-        List<List<String>> data = reader.readAll();
+        CsvMatrix<T> data = new CsvMatrix<T>(reader.readAll());
 
         return new CsvDataFrame(header, data);
     }
@@ -108,7 +111,7 @@ public class CsvDataFrame {
         return patient;
     }
 
-    public void setPatient(String patient) throws IllegalAccessException {
+    public void setPatient(final String patient) throws IllegalAccessException {
         if (null != this.patient) {
             throw new IllegalAccessException(ErrorMessages.INITIALIZED_FIELD_MUST_STAY_UNCHANGED);
         }
@@ -116,6 +119,14 @@ public class CsvDataFrame {
             throw new IllegalArgumentException(ErrorMessages.NULL_INITIALIZATION_NOT_ALLOWED_HERE);
         }
         this.patient = patient;
+    }
+
+    public void setPatientsSex(final boolean female) throws IllegalAccessException {
+        this.femalePatient = female;
+    }
+
+    public boolean getPatientsSex() {
+        return this.femalePatient;
     }
 
     public boolean isHealthStateInitialized() {
@@ -126,7 +137,7 @@ public class CsvDataFrame {
         return healthState;
     }
 
-    public void setHealthState(HealthState healthState) throws IllegalAccessException {
+    public void setHealthState(final HealthState healthState) throws IllegalAccessException {
         if (null != this.patient) {
             throw new IllegalAccessException(ErrorMessages.INITIALIZED_FIELD_MUST_STAY_UNCHANGED);
         }
@@ -145,7 +156,7 @@ public class CsvDataFrame {
         return healthStateSafeness;
     }
 
-    public void setHealthStateSafeness(float healthStateSafeness) {
+    public void setHealthStateSafeness(final float healthStateSafeness) {
         this.healthStateSafeness = healthStateSafeness;
     }
 
