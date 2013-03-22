@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants.ESTIMATED_MEAN_CHARACTERS_PER_DATA_CELL;
+import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants.HEADER_SIGNATURES_DELIMITER;
 
 /**
  * Helps handling of files and file streams.
@@ -19,7 +20,7 @@ import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants.ESTIMA
 public class FileUtils {
 
 
-    private static final int START_COUNT_WRITE_CSV_CELLS = 1;
+    private static final int START_COUNT_WRITE_CSV_CELLS = 0;
 
     public static <T> List<File> writeFiles(final File resultsDirectory, final Map<String, CsvDataFrame<T>> map)
             throws IOException {
@@ -68,24 +69,37 @@ public class FileUtils {
             res = new StringBuilder(estCharsForDataCells + estCharsForHeaderRowItems);
 
 
+            // init phase
             int i = START_COUNT_WRITE_CSV_CELLS;
+            final StringBuilder semanticEndRowInformation = getSemanticEndRowInformation(content);
+
             // get contents
             for (CsvMatrixRow<T> row : content.getData().getRows()) {
 
                 for (T item : row.getCells()) {
-                    res.append(item);
-                    if (columnCount != i) {
-                        // 0..(n-1)-th line
-                        res.append(Constants.HEADER_SIGNATURES_DELIMITER);
-                        i++;
-                    } else {
+                    // 0..(n-1)-th cell and n-th cell as well
+                    res.append(item).append(HEADER_SIGNATURES_DELIMITER);
+                    i++;
+                    if (columnCount == i) {
                         // last line
                         i = START_COUNT_WRITE_CSV_CELLS;
-                        res.append(Constants.LINE_BREAK);
+                        res.append(semanticEndRowInformation);
                     }
                 }
             }
         }
+
+        return res;
+    }
+
+    private static <T> StringBuilder getSemanticEndRowInformation(CsvDataFrame<T> content) {
+        StringBuilder res = new StringBuilder();
+
+        res.append(content.getHealthState().toString()).append(Constants.HEADER_SIGNATURES_DELIMITER)
+                .append(content.getPatient()).append(Constants.HEADER_SIGNATURES_DELIMITER)
+                .append(content.getPatientsSex())
+                // technical line break for next row / instance
+                .append(Constants.LINE_BREAK);
 
         return res;
     }
