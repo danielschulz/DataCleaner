@@ -14,9 +14,13 @@ public interface Constants {
     public final static String RESULTS_DIRECTORY = "results";           // the folder all your data to read and write are in
 
 
+    // semi-semantic, semi-technical constants
+    public static final short ESTIMATED_MEAN_CHARACTERS_PER_DATA_CELL = (short) 6;
+
     // technical constants
     public static final int BUFFER_SIZE = 2048;     // size of buffer to load and write files with
-    public static final String HEADER_SIGNATURES_DELIMITER = ";";  // delimiter character(s) used internally to aggregate the signature id
+    // delimiter character(s) used internally to aggregate the signature id
+    public static final String HEADER_SIGNATURES_DELIMITER = ";";
 
     // command line interface
     String WORKING_DIRECTORY_OPTION_DESCRIPTION = "This option specifies the folder all your data to read from " +

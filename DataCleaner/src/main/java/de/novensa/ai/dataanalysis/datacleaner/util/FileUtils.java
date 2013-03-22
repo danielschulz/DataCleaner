@@ -1,19 +1,15 @@
 package de.novensa.ai.dataanalysis.datacleaner.util;
 
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvDataFrame;
-import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvMatrix;
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvMatrixRow;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants.ESTIMATED_MEAN_CHARACTERS_PER_DATA_CELL;
 
 /**
  * Helps handling of files and file streams.
@@ -23,7 +19,9 @@ import java.util.Map;
 public class FileUtils {
 
 
-    public static List<File> writeFiles(final File resultsDirectory, final Map<String, CsvDataFrame> map)
+    private static final int START_COUNT_WRITE_CSV_CELLS = 1;
+
+    public static <T> List<File> writeFiles(final File resultsDirectory, final Map<String, CsvDataFrame<T>> map)
             throws IOException {
         List<File> writtenFiles = new ArrayList<File>();
 
@@ -37,7 +35,63 @@ public class FileUtils {
         return writtenFiles;
     }
 
+    public static <T> File writeFile(final File resultDirectory, final String fileName, final CsvDataFrame<T> content)
+            throws IOException {
 
+        final File file = new File(resultDirectory + Constants.DOUBLE_BACK_SLASH + fileName);
+
+        if (null != content && null != content.getData() && 1 <= content.getData().getRowSize()) {
+            FileOutputStream fos = new FileOutputStream(file);
+            BufferedOutputStream bos = new BufferedOutputStream(fos);
+            byte[] bytes = getCharSequence(content).toString().getBytes();
+            bos.write(bytes);
+        }
+
+        return null;
+    }
+
+    private static <T> CharSequence getCharSequence(CsvDataFrame<T> content) {
+
+        StringBuilder res = null;
+        if (null != content &&
+                null != content.getData() && 1 <= content.getData().getRowSize() &&
+                null != content.getData().getRow(0) && 1 <= content.getData().getRow(0).getColumnSize()) {
+            // init phase
+            final int columnCount = content.getData().getRow(0).getColumnSize();
+            int estCharsForDataCells =
+                    content.getData().getRowSize() * columnCount * ESTIMATED_MEAN_CHARACTERS_PER_DATA_CELL;
+            int estCharsForHeaderRowItems = content.getHeaderSignature().length();
+            // correct for zero-to-positive values only
+            estCharsForDataCells = 0 <= estCharsForDataCells ?
+                    estCharsForDataCells : ESTIMATED_MEAN_CHARACTERS_PER_DATA_CELL * estCharsForHeaderRowItems;
+
+            res = new StringBuilder(estCharsForDataCells + estCharsForHeaderRowItems);
+
+
+            int i = START_COUNT_WRITE_CSV_CELLS;
+            // get contents
+            for (CsvMatrixRow<T> row : content.getData().getRows()) {
+
+                for (T item : row.getCells()) {
+                    res.append(item);
+                    if (columnCount != i) {
+                        // 0..(n-1)-th line
+                        res.append(Constants.HEADER_SIGNATURES_DELIMITER);
+                        i++;
+                    } else {
+                        // last line
+                        i = START_COUNT_WRITE_CSV_CELLS;
+                        res.append(Constants.LINE_BREAK);
+                    }
+                }
+            }
+        }
+
+        return res;
+    }
+
+
+    /*
     public static File writeFile(final File resultDirectory, final String fileName, final CsvDataFrame content) throws IOException {
 
         final File file = new File(resultDirectory + Constants.DOUBLE_BACK_SLASH + fileName);
@@ -90,7 +144,7 @@ public class FileUtils {
         }
 
         return res.toString();
-    }
+    }*/
 
     public static String getFileNameWithUnixPrefix(String prefix, String fileName) {
 

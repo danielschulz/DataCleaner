@@ -19,7 +19,7 @@ import java.util.*;
  *
  * @author Daniel Schulz
  */
-public class IOMain extends Context {
+public class IOMain <T> extends Context {
 
     private final File resultsDirectory;
 
@@ -64,7 +64,7 @@ public class IOMain extends Context {
 
     public void extractArchives() throws IOException {
         ExtractArchives extractor = new ExtractArchives(this.getContext());
-        LoadCsvContents csvLoader = new LoadCsvContents(this.getContext());
+        LoadCsvContents<T> csvLoader = new LoadCsvContents<T>(this.getContext());
 
         final File wd = new File(getContext().getWorkingDir());
         final File[] filesToExtract = wd.listFiles(TAR_BZ_2_ARCHIVES_FILE_FILTER);
@@ -81,12 +81,12 @@ public class IOMain extends Context {
 
 
         @SuppressWarnings("UnusedDeclaration")
-        Map<String, HeaderSignatureSensitiveBucket> signatureSensitiveMap =
+        Map<String, HeaderSignatureSensitiveBucket<T>> signatureSensitiveMap =
                 csvLoader.exploreJustExtractedFiles(extractionDeletionInstances);
-        Map<String, CsvDataFrame> processedMap = new TreeMap<String, CsvDataFrame>();
+        Map<String, CsvDataFrame<T>> processedMap = new TreeMap<String, CsvDataFrame<T>>();
 
         for (String key : signatureSensitiveMap.keySet()) {
-            CsvDataFrame csvDataFrames = compressCsvDataFrames(signatureSensitiveMap.get(key));
+            CsvDataFrame<T> csvDataFrames = compressCsvDataFrames(signatureSensitiveMap.get(key));
             processedMap.put(key, csvDataFrames);
         }
 

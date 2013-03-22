@@ -35,7 +35,7 @@ public class LoadCsvContents<T> extends Context {
      * @param extractionDeletionInstances The source to find the files
      * @return A Map from the file location to it's content
      */
-    public Map<String, HeaderSignatureSensitiveBucket> exploreJustExtractedFiles(
+    public Map<String, HeaderSignatureSensitiveBucket<T>> exploreJustExtractedFiles(
             List<ExtractionDeletionInstance> extractionDeletionInstances) throws IOException {
 
         CSVReaderBuilder builder;
@@ -104,9 +104,9 @@ public class LoadCsvContents<T> extends Context {
      * @param fileMap The file-names mapping from the extraction process
      * @return The mapping by unique header
      */
-    public Map<String, HeaderSignatureSensitiveBucket> makeSignatureSensitiveMap(Map<String, CsvDataFrame<T>> fileMap) {
-        Map<String, HeaderSignatureSensitiveBucket> signatureSensitiveMap =
-                new TreeMap<String, HeaderSignatureSensitiveBucket>();
+    public Map<String, HeaderSignatureSensitiveBucket<T>> makeSignatureSensitiveMap(Map<String, CsvDataFrame<T>> fileMap) {
+        Map<String, HeaderSignatureSensitiveBucket<T>> signatureSensitiveMap =
+                new TreeMap<String, HeaderSignatureSensitiveBucket<T>>();
 
         String header;
         for (String path : fileMap.keySet()) {
@@ -116,7 +116,7 @@ public class LoadCsvContents<T> extends Context {
             if (signatureSensitiveMap.containsKey(header)) {
                 signatureSensitiveMap.get(header).addPair(path, csvDataFrame);
             } else {
-                signatureSensitiveMap.put(header, new HeaderSignatureSensitiveBucket(path, csvDataFrame));
+                signatureSensitiveMap.put(header, new HeaderSignatureSensitiveBucket<T>(path, csvDataFrame));
             }
         }
 
