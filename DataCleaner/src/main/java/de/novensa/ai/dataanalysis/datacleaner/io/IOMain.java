@@ -101,7 +101,7 @@ public class IOMain extends Context {
         final List<File> writtenFiles = FileUtils.writeFiles(this.resultsDirectory, processedMap);
 
 
-        ExtractionDeletionInstance deletionInstance = new ExtractionDeletionInstance(
+        @SuppressWarnings("UnusedDeclaration") ExtractionDeletionInstance deletionInstance = new ExtractionDeletionInstance(
                 ExtractionDeletionStrategy.KEEP_EVERYTHING, this.resultsDirectory.getCanonicalPath(),
                 folders, writtenFiles, null, null);
 
@@ -131,6 +131,7 @@ public class IOMain extends Context {
         }
     }
 
+    @SuppressWarnings({"unchecked", "UnnecessaryLocalVariable"})
     private static <T> CsvDataFrame<T> compressCsvDataFrames(final HeaderSignatureSensitiveBucket bucket) {
 
         if (null == bucket) {
@@ -139,7 +140,8 @@ public class IOMain extends Context {
 
         final List<Pair<String, CsvDataFrame>> allBucketPairs = bucket.getPairs();
         final List<Pair<String, CsvDataFrame>> buckets = allBucketPairs;
-        final List<List<T>> dataCollection = new ArrayList<List<T>>(new ArrayList(buckets.size()));
+        final List<List<T>> dataCollection;
+        dataCollection = new ArrayList<List<T>>(new ArrayList(buckets.size()));
 
         Pair<String, CsvDataFrame> firstBucketPair = allBucketPairs.get(0);
         if (allBucketPairs.size() < 1 || null == firstBucketPair) {
@@ -150,9 +152,7 @@ public class IOMain extends Context {
             dataCollection.addAll(c.getValue1().getData().getRows());
         }
 
-        final CsvDataFrame result =
-                new CsvDataFrame(firstBucketPair.getValue1().getHeader(), new CsvMatrix(dataCollection));
-        return result;
+        return new CsvDataFrame(firstBucketPair.getValue1().getHeader(), new CsvMatrix(dataCollection));
     }
 
 

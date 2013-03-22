@@ -95,12 +95,13 @@ public class CsvDataFrame<T> {
         return this.data.getRow(row);
     }
 
-    public static <T> CsvDataFrame getCsvDataFrame(final CSVReader<CsvMatrixRow<T>> reader) throws IOException {
+    public static <T> CsvDataFrame<T> getCsvDataFrame(final CSVReader<CsvMatrixRow<T>> reader) throws IOException {
 
         List<String> header = reader.readHeader();
-        CsvMatrix<T> data = new CsvMatrix<T>(reader.readAll());
+        // List<CsvMatrixRow<T>> csvMatrixRows = reader.readAll();
+        CsvMatrix<T> data = new CsvMatrix<T>(reader);
 
-        return new CsvDataFrame(header, data);
+        return new CsvDataFrame<T>(header, data);
     }
 
 

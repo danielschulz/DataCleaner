@@ -1,8 +1,5 @@
 package de.novensa.ai.dataanalysis.datacleaner.ubiquitous.subjectSpecificMappings;
 
-import de.novensa.ai.dataanalysis.datacleaner.aggregate.HealthState;
-
-import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -19,6 +16,7 @@ public abstract class SynonymToPatientIdentificationMapping {
         specialSynonyms.put("Alberto", "Albert");
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     protected final String getPatientIdentificatorIgnoringSynonyms(String possiblyTheSynonym) {
         return this.specialSynonyms.get(possiblyTheSynonym);
     }

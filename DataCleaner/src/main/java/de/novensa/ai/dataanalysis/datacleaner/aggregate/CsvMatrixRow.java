@@ -1,5 +1,7 @@
 package de.novensa.ai.dataanalysis.datacleaner.aggregate;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,6 +14,16 @@ import java.util.List;
 public class CsvMatrixRow<T> {
 
     private final List<T> cells;
+
+    public CsvMatrixRow(final T[] cells) {
+
+        List<T> parsed = new ArrayList<T>(cells.length);
+        for (T cur : cells) {
+            parsed.add(cur);
+        }
+
+        this.cells = parsed;
+    }
 
     public CsvMatrixRow(final List<T> cells) {
         this.cells = cells;

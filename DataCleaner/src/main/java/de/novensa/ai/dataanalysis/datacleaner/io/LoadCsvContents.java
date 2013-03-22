@@ -21,7 +21,7 @@ import java.util.TreeMap;
  *
  * @author Daniel Schulz
  */
-public class LoadCsvContents extends Context {
+public class LoadCsvContents<T> extends Context {
 
     private final static DefaultCSVEntryParser DEFAULT_CSV_ENTRY_PARSER = new DefaultCSVEntryParser();
     private final Context context;
@@ -39,7 +39,7 @@ public class LoadCsvContents extends Context {
             List<ExtractionDeletionInstance> extractionDeletionInstances) throws IOException {
 
         CSVReaderBuilder builder;
-        Map<String, CsvDataFrame> resultMap = new TreeMap<String, CsvDataFrame>();
+        Map<String, CsvDataFrame<T>> resultMap = new TreeMap<String, CsvDataFrame<T>>();
 
         for (ExtractionDeletionInstance instance : extractionDeletionInstances) {
             final String workingDirectoryPath = instance.getWorkingDirectory();
@@ -60,7 +60,7 @@ public class LoadCsvContents extends Context {
                     //noinspection unchecked
                     String key = surefireRelativePathPasting(file.getCanonicalPath(), workingDirectoryPath, workingDirectoryLength);
                     //noinspection unchecked
-                    CsvDataFrame csvDataFrame = CsvDataFrame.getCsvDataFrame(reader);
+                    CsvDataFrame<T> csvDataFrame = CsvDataFrame.getCsvDataFrame(reader);
 
                     if(!resultMap.containsKey(key)) {
                         resultMap.put(key, csvDataFrame);
@@ -104,7 +104,7 @@ public class LoadCsvContents extends Context {
      * @param fileMap The file-names mapping from the extraction process
      * @return The mapping by unique header
      */
-    public Map<String, HeaderSignatureSensitiveBucket> makeSignatureSensitiveMap(Map<String, CsvDataFrame> fileMap) {
+    public Map<String, HeaderSignatureSensitiveBucket> makeSignatureSensitiveMap(Map<String, CsvDataFrame<T>> fileMap) {
         Map<String, HeaderSignatureSensitiveBucket> signatureSensitiveMap =
                 new TreeMap<String, HeaderSignatureSensitiveBucket>();
 

@@ -5,7 +5,6 @@ import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvMatrix;
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvMatrixRow;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants;
 
-import javax.swing.text.AbstractDocument;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -31,7 +30,7 @@ public class FileUtils {
         File f;
         int i = 1;
         for (String key : map.keySet()) {
-            f = writeFile(resultsDirectory, getUpcomingResultsFileName(i), map.get(key));
+            f = writeFile(resultsDirectory, getUpcomingResultsFileName(i++), map.get(key));
             writtenFiles.add(f);
         }
 
@@ -42,15 +41,17 @@ public class FileUtils {
     public static File writeFile(final File resultDirectory, final String fileName, final CsvDataFrame content) throws IOException {
 
         final File file = new File(resultDirectory + Constants.DOUBLE_BACK_SLASH + fileName);
-        final int numberOfIterations = 1000000;
+        //final int numberOfIterations = 1000000;
+        final int numberOfIterations = 1;
 
         if (null != content && null != content.getData() && 1 <= content.getData().getRowSize()) {
+            @SuppressWarnings("unchecked")
             final byte[] messageBytes = getDataFromCsvDataFrame(content).getBytes(Charset.forName("ISO-8859-1"));
             final long appendSize = numberOfIterations * messageBytes.length;
             final RandomAccessFile raf = new RandomAccessFile(file, "rw");
             raf.seek(raf.length());
             final FileChannel fc = raf.getChannel();
-            final MappedByteBuffer mbf = fc.map(FileChannel.MapMode.READ_WRITE, fc.position(), appendSize);
+            final MappedByteBuffer mbf = fc.map(FileChannel.MapMode.READ_WRITE, fc.position(), getAtMostIntegerMax(appendSize));
             fc.close();
             for (int i = 1; i < numberOfIterations; i++) {
                 mbf.put(messageBytes);
@@ -59,6 +60,10 @@ public class FileUtils {
         } else {
             return null;
         }
+    }
+
+    private static long getAtMostIntegerMax(long appendSize) {
+        return (long) Math.min(appendSize, Integer.MAX_VALUE);
     }
 
     private static <T> String getDataFromCsvDataFrame(CsvDataFrame<T> content) {

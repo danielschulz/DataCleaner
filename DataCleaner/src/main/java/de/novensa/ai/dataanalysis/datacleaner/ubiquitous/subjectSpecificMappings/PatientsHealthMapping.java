@@ -9,6 +9,7 @@ import java.util.TreeMap;
  *
  * @author Daniel Schulz
  */
+@SuppressWarnings("UnusedDeclaration")
 public abstract class PatientsHealthMapping {
 
     private final TreeMap<String, HealthState> patientToDiagnosis;

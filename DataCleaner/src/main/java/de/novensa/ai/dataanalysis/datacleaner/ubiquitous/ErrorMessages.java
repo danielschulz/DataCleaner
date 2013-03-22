@@ -7,6 +7,7 @@ import java.io.File;
  *
  * @author Daniel Schulz
  */
+@SuppressWarnings("UnusedDeclaration")
 public class ErrorMessages {
 
     // directory type strings
