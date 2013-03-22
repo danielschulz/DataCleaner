@@ -1,10 +1,11 @@
 package de.novensa.ai.dataanalysis.datacleaner.io;
 
 import com.googlecode.jcsv.CSVStrategy;
+import com.googlecode.jcsv.reader.CSVEntryParser;
 import com.googlecode.jcsv.reader.CSVReader;
 import com.googlecode.jcsv.reader.internal.CSVReaderBuilder;
-import com.googlecode.jcsv.reader.internal.DefaultCSVEntryParser;
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvDataFrame;
+import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvMatrixRow;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Context;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.ErrorMessages;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionInstance;
@@ -12,18 +13,17 @@ import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionInstance;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Get the contents of all CSV files.
  *
  * @author Daniel Schulz
+ * @author Juergen Krey
  */
 public class LoadCsvContents<T> extends Context {
 
-    private final static DefaultCSVEntryParser DEFAULT_CSV_ENTRY_PARSER = new DefaultCSVEntryParser();
+    private final CsvMatrixRowParser<T> DEFAULT_CSV_ENTRY_PARSER = new CsvMatrixRowParser<T>();
     private final Context context;
 
     public LoadCsvContents(Context context) {
@@ -110,7 +110,7 @@ public class LoadCsvContents<T> extends Context {
 
         String header;
         for (String path : fileMap.keySet()) {
-            CsvDataFrame csvDataFrame = fileMap.get(path);
+            CsvDataFrame<T> csvDataFrame = fileMap.get(path);
             header = csvDataFrame.getHeaderSignature();
 
             if (signatureSensitiveMap.containsKey(header)) {
@@ -123,5 +123,13 @@ public class LoadCsvContents<T> extends Context {
         }
 
         return signatureSensitiveMap;
+    }
+
+    private class CsvMatrixRowParser<T> implements CSVEntryParser {
+        @Override
+        public CsvMatrixRow<T> parseEntry(String... data) {
+            //noinspection unchecked
+            return new CsvMatrixRow<T>((T[]) data);
+        }
     }
 }

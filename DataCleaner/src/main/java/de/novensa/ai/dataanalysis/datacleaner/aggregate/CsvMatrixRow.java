@@ -7,9 +7,9 @@ import java.util.List;
 /**
  * Saves the data rows in single cells.
  *
- * @author Daniel Schulz
- *
  * @param <T> The type for all cell data
+ * @author Daniel Schulz
+ * @author Juergen Krey
  */
 public class CsvMatrixRow<T> {
 

@@ -12,6 +12,7 @@ import java.util.List;
  * think of a data frame as a table with different typed columns.
  *
  * @author Daniel Schulz
+ * @author Juergen Krey
  *
  * @param <T> The type of data in all cells
  */
@@ -98,7 +99,6 @@ public class CsvDataFrame<T> {
     public static <T> CsvDataFrame<T> getCsvDataFrame(final CSVReader<CsvMatrixRow<T>> reader) throws IOException {
 
         List<String> header = reader.readHeader();
-        // List<CsvMatrixRow<T>> csvMatrixRows = reader.readAll();
         CsvMatrix<T> data = new CsvMatrix<T>(reader);
 
         return new CsvDataFrame<T>(header, data);

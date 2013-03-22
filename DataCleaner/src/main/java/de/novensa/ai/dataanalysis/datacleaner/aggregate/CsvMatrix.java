@@ -10,8 +10,9 @@ import java.util.List;
  * Saves data in matrices.
  *
  * @author Daniel Schulz
+ * @author Juergen Krey
  *
- * @param <T> The type of all datas in cells
+ * @param <T> The type of all data in cells
  */
 public class CsvMatrix<T> {
 
@@ -35,9 +36,10 @@ public class CsvMatrix<T> {
         List<CsvMatrixRow<T>> list = new ArrayList<CsvMatrixRow<T>>(data.size());
 
         //noinspection unchecked
-        for (T[] row : (List<T[]>) data) {
+        /*for (T[] row : (List<T[]>) data) {
             list.add(new CsvMatrixRow<T>(row));
-        }
+        }*/
+        list.addAll(data);
 
         this.rows = list;
     }
