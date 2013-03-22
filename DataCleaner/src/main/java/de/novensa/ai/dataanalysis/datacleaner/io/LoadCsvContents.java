@@ -114,8 +114,10 @@ public class LoadCsvContents<T> extends Context {
             header = csvDataFrame.getHeaderSignature();
 
             if (signatureSensitiveMap.containsKey(header)) {
+                //noinspection unchecked
                 signatureSensitiveMap.get(header).addPair(path, csvDataFrame);
             } else {
+                //noinspection unchecked
                 signatureSensitiveMap.put(header, new HeaderSignatureSensitiveBucket<T>(path, csvDataFrame));
             }
         }

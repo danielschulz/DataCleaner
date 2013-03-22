@@ -82,6 +82,7 @@ public class ErrorMessages {
     }
 
     public static String getArgumentDirectoryNotFoundInArguments(final String directoryType) {
+        //noinspection MalformedFormatString
         return String.format(ARGUMENT_DIRECTORY_NOT_FOUND_IN_ARGUMENTS, directoryType);
     }
 }

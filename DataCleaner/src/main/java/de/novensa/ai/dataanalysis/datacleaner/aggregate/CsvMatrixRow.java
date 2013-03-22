@@ -18,9 +18,7 @@ public class CsvMatrixRow<T> {
     public CsvMatrixRow(final T[] cells) {
 
         List<T> parsed = new ArrayList<T>(cells.length);
-        for (T cur : cells) {
-            parsed.add(cur);
-        }
+        Collections.addAll(parsed, cells);
 
         this.cells = parsed;
     }

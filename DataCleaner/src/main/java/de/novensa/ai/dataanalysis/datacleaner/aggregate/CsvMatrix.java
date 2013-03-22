@@ -34,6 +34,7 @@ public class CsvMatrix<T> {
 
         List<CsvMatrixRow<T>> list = new ArrayList<CsvMatrixRow<T>>(data.size());
 
+        //noinspection unchecked
         for (T[] row : (List<T[]>) data) {
             list.add(new CsvMatrixRow<T>(row));
         }
@@ -45,6 +46,7 @@ public class CsvMatrix<T> {
 
         if (null != data && data.size() > 0) {
             if (data.get(0) instanceof CsvMatrixRow) {
+                //noinspection unchecked
                 this.rows = (List) data;
             } else {
                 List<CsvMatrixRow<T>> list = new ArrayList<CsvMatrixRow<T>>(data.size());
