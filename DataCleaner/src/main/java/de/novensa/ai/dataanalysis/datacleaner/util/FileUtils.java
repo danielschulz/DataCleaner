@@ -3,6 +3,7 @@ package de.novensa.ai.dataanalysis.datacleaner.util;
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvDataFrame;
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvMatrixRow;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants;
+import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.subjectSpecificMappings.Mappings;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Map;
 
 import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants.ESTIMATED_MEAN_CHARACTERS_PER_DATA_CELL;
 import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants.HEADER_SIGNATURES_DELIMITER;
+import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants.LINE_BREAK;
 
 /**
  * Helps handling of files and file streams.
@@ -69,11 +71,19 @@ public class FileUtils {
             int estCharsForDataCells =
                     content.getData().getRowSize() * columnCount * ESTIMATED_MEAN_CHARACTERS_PER_DATA_CELL;
             int estCharsForHeaderRowItems = content.getHeaderSignature().length();
+
             // correct for zero-to-positive values only
             estCharsForDataCells = 0 <= estCharsForDataCells ?
                     estCharsForDataCells : ESTIMATED_MEAN_CHARACTERS_PER_DATA_CELL * estCharsForHeaderRowItems;
 
             res = new StringBuilder(estCharsForDataCells + estCharsForHeaderRowItems);
+
+
+            // write header
+            for (String headerItem : content.getHeader()) {
+                res.append(headerItem).append(HEADER_SIGNATURES_DELIMITER);
+            }
+            res.append(Mappings.HEADER_ENDING).append(LINE_BREAK);
 
 
             // init phase

@@ -105,6 +105,7 @@ public class IOMain <T> extends Context {
         final List<File> writtenFiles = FileUtils.writeFiles(this.resultsDirectory, processedMap);
 
 
+        // clean up again
         @SuppressWarnings("UnusedDeclaration")
         ExtractionDeletionInstance deletionInstance = new ExtractionDeletionInstance(
                 ExtractionDeletionStrategy.KEEP_EVERYTHING, this.resultsDirectory.getCanonicalPath(),
