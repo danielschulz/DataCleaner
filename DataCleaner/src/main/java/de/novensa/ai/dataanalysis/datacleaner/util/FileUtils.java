@@ -19,7 +19,6 @@ import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants.HEADER
  */
 public class FileUtils {
 
-
     private static final int START_COUNT_WRITE_CSV_CELLS = 0;
 
     public static <T> List<File> writeFiles(final File resultsDirectory, final Map<String, CsvDataFrame<T>> map)
@@ -59,6 +58,7 @@ public class FileUtils {
                 null != content.getData().getRow(0) && 1 <= content.getData().getRow(0).getColumnSize()) {
             // init phase
             final int columnCount = content.getData().getRow(0).getColumnSize();
+            final int cellBeforeLineBreak = columnCount - 1;
             int estCharsForDataCells =
                     content.getData().getRowSize() * columnCount * ESTIMATED_MEAN_CHARACTERS_PER_DATA_CELL;
             int estCharsForHeaderRowItems = content.getHeaderSignature().length();
@@ -71,19 +71,24 @@ public class FileUtils {
 
             // init phase
             int i = START_COUNT_WRITE_CSV_CELLS;
-            final StringBuilder semanticEndRowInformation = getSemanticEndRowInformation(content);
 
             // get contents
             for (CsvMatrixRow<T> row : content.getData().getRows()) {
 
                 for (T item : row.getCells()) {
                     // 0..(n-1)-th cell and n-th cell as well
-                    res.append(item).append(HEADER_SIGNATURES_DELIMITER);
+                    if (cellBeforeLineBreak != i) {
+                        res.append(item).append(HEADER_SIGNATURES_DELIMITER);
+                    } else {
+                        res.append(item);
+                    }
+
                     i++;
+
                     if (columnCount == i) {
                         // last line
                         i = START_COUNT_WRITE_CSV_CELLS;
-                        res.append(semanticEndRowInformation);
+                        res.append(Constants.LINE_BREAK);
                     }
                 }
             }
@@ -92,10 +97,11 @@ public class FileUtils {
         return res;
     }
 
+    /*
     private static <T> StringBuilder getSemanticEndRowInformation(CsvDataFrame<T> content) {
         StringBuilder res = new StringBuilder();
 
-        res.append(content.getHealthState().toString()).append(Constants.HEADER_SIGNATURES_DELIMITER)
+        res.append(content.getHealthState().ordinal()).append(Constants.HEADER_SIGNATURES_DELIMITER)
                 .append(content.getPatient()).append(Constants.HEADER_SIGNATURES_DELIMITER)
                 .append(content.getPatientsSex())
                 // technical line break for next row / instance
@@ -104,8 +110,6 @@ public class FileUtils {
         return res;
     }
 
-
-    /*
     public static File writeFile(final File resultDirectory, final String fileName, final CsvDataFrame content) throws IOException {
 
         final File file = new File(resultDirectory + Constants.DOUBLE_BACK_SLASH + fileName);

@@ -20,7 +20,7 @@ public class CsvFileFilter implements FileFilter {
         if (null != file) {
 
             String fileName = file.getName();
-            return FilenameUtils.isExtension(fileName, DEFAULT_FILE_ENDING);
+            return FilenameUtils.isExtension(fileName, DEFAULT_FILE_ENDING) && !fileName.startsWith(".");
         }
 
         return false;

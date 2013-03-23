@@ -59,15 +59,19 @@ public class IOMain <T> extends Context {
 
     public static void main(String[] args) throws IOException, ParseException {
         IOMain ioMain = new IOMain(CommandLineUtils.parseCommandLine(args));
-        ioMain.extractArchives();
+        ioMain.processWorkingDirectory();
     }
 
-    public void extractArchives() throws IOException {
+    public void processWorkingDirectory() throws IOException {
         ExtractArchives extractor = new ExtractArchives(this.getContext());
         LoadCsvContents<T> csvLoader = new LoadCsvContents<T>(this.getContext());
 
+        // identify upcoming work
         final File wd = new File(getContext().getWorkingDir());
         final File[] filesToExtract = wd.listFiles(TAR_BZ_2_ARCHIVES_FILE_FILTER);
+
+
+        // process extraction
         List<ExtractionDeletionInstance> extractionDeletionInstances = new ArrayList<ExtractionDeletionInstance>();
 
         for (File currentArchive : filesToExtract) {
@@ -80,7 +84,7 @@ public class IOMain <T> extends Context {
         }
 
 
-        @SuppressWarnings("UnusedDeclaration")
+        //
         Map<String, HeaderSignatureSensitiveBucket<T>> signatureSensitiveMap =
                 csvLoader.exploreJustExtractedFiles(extractionDeletionInstances);
         Map<String, CsvDataFrame<T>> processedMap = new TreeMap<String, CsvDataFrame<T>>();
@@ -104,19 +108,6 @@ public class IOMain <T> extends Context {
         @SuppressWarnings("UnusedDeclaration") ExtractionDeletionInstance deletionInstance = new ExtractionDeletionInstance(
                 ExtractionDeletionStrategy.KEEP_EVERYTHING, this.resultsDirectory.getCanonicalPath(),
                 folders, writtenFiles, null, null);
-
-
-        /*
-        for (String cur : signatureSensitiveMap.keySet()) {
-
-
-            FileWriter fileWriter = new FileWriter(new File(cur));
-            CSVWriterBuilder csvWriterBuilder = new CSVWriterBuilder(fileWriter);
-
-            CSVWriter writer = csvWriterBuilder.build();
-
-            writer.write(pair.get);
-        }*/
 
 
         for (ExtractionDeletionInstance extractionDeletionInstance : extractionDeletionInstances) {

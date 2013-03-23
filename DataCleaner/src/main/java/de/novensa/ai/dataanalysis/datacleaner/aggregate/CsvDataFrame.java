@@ -22,6 +22,7 @@ public class CsvDataFrame<T> {
     private final List<String> header;
     private final CsvMatrix<T> data;
 
+    // deprecated
     private String patient;
     private boolean femalePatient;
     private HealthState healthState;
@@ -96,10 +97,11 @@ public class CsvDataFrame<T> {
         return this.data.getRow(row);
     }
 
-    public static <T> CsvDataFrame<T> getCsvDataFrame(final CSVReader<CsvMatrixRow<T>> reader) throws IOException {
+    public static <T> CsvDataFrame<T> getCsvDataFrame(final CSVReader<CsvMatrixRow<T>> reader, T[] fileNameInfo)
+            throws IOException {
 
         List<String> header = reader.readHeader();
-        CsvMatrix<T> data = new CsvMatrix<T>(reader);
+        CsvMatrix<T> data = new CsvMatrix<T>(reader, fileNameInfo);
 
         return new CsvDataFrame<T>(header, data);
     }

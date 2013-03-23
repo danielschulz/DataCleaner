@@ -18,7 +18,7 @@ public class CsvMatrix<T> {
 
     private final List<CsvMatrixRow<T>> rows;
 
-    public CsvMatrix(CSVReader reader) throws IOException {
+    public CsvMatrix(CSVReader<CsvMatrixRow<T>> reader, T[] fileNameInfo) throws IOException {
 
         /*
         > throws ClassCastExceptions for reasons unknown: signature have to be
@@ -31,7 +31,7 @@ public class CsvMatrix<T> {
         }
         */
 
-        List data = reader.readAll();
+        List<CsvMatrixRow<T>> data = reader.readAll();
 
         List<CsvMatrixRow<T>> list = new ArrayList<CsvMatrixRow<T>>(data.size());
 
@@ -39,7 +39,11 @@ public class CsvMatrix<T> {
         /*for (T[] row : (List<T[]>) data) {
             list.add(new CsvMatrixRow<T>(row));
         }*/
-        list.addAll(data);
+        // list.addAll(data);
+
+        for (CsvMatrixRow<T> row : data) {
+            list.add(new CsvMatrixRow<T>(row, fileNameInfo));
+        }
 
         this.rows = list;
     }

@@ -1,5 +1,7 @@
 package de.novensa.ai.dataanalysis.datacleaner.aggregate;
 
+import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +21,15 @@ public class CsvMatrixRow<T> {
 
         List<T> parsed = new ArrayList<T>(cells.length);
         Collections.addAll(parsed, cells);
+
+        this.cells = parsed;
+    }
+
+    public CsvMatrixRow(final CsvMatrixRow<T> oldRow, T[] fileNameInfo) {
+
+        List<T> parsed = new ArrayList<T>(oldRow.getColumnSize() * Constants.ESTIMATED_MEAN_CHARACTERS_PER_DATA_CELL);
+        parsed.addAll(oldRow.getCells());
+        Collections.addAll(parsed, fileNameInfo);
 
         this.cells = parsed;
     }

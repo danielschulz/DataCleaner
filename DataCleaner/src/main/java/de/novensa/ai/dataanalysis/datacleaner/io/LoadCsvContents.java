@@ -55,12 +55,17 @@ public class LoadCsvContents<T> extends Context {
 
                     //noinspection unchecked
                     builder.entryParser(DEFAULT_CSV_ENTRY_PARSER);
-                    CSVReader reader = builder.build();
+                    CSVReader<CsvMatrixRow<T>> reader = builder.build();
 
                     //noinspection unchecked
-                    String key = surefireRelativePathPasting(file.getCanonicalPath(), workingDirectoryPath, workingDirectoryLength);
+                    String key = surefireRelativePathPasting(
+                            file.getCanonicalPath(), workingDirectoryPath, workingDirectoryLength);
+                    T[] fileNameInfo = (T[]) key.split("\\\\")[2].split("\\.")[0].split("_");
                     //noinspection unchecked
-                    CsvDataFrame<T> csvDataFrame = CsvDataFrame.getCsvDataFrame(reader);
+                    CsvDataFrame<T> csvDataFrame = CsvDataFrame.getCsvDataFrame(reader, fileNameInfo);
+
+
+                    System.out.println(key);
 
                     if(!resultMap.containsKey(key)) {
                         resultMap.put(key, csvDataFrame);
@@ -73,6 +78,7 @@ public class LoadCsvContents<T> extends Context {
             }
         }
 
+        // make signature sensitive
         return makeSignatureSensitiveMap(resultMap);
     }
 
@@ -104,7 +110,9 @@ public class LoadCsvContents<T> extends Context {
      * @param fileMap The file-names mapping from the extraction process
      * @return The mapping by unique header
      */
-    public Map<String, HeaderSignatureSensitiveBucket<T>> makeSignatureSensitiveMap(Map<String, CsvDataFrame<T>> fileMap) {
+    public Map<String, HeaderSignatureSensitiveBucket<T>> makeSignatureSensitiveMap(
+            Map<String, CsvDataFrame<T>> fileMap) {
+
         Map<String, HeaderSignatureSensitiveBucket<T>> signatureSensitiveMap =
                 new TreeMap<String, HeaderSignatureSensitiveBucket<T>>();
 
@@ -123,13 +131,5 @@ public class LoadCsvContents<T> extends Context {
         }
 
         return signatureSensitiveMap;
-    }
-
-    private class CsvMatrixRowParser<T> implements CSVEntryParser {
-        @Override
-        public CsvMatrixRow<T> parseEntry(String... data) {
-            //noinspection unchecked
-            return new CsvMatrixRow<T>((T[]) data);
-        }
     }
 }
