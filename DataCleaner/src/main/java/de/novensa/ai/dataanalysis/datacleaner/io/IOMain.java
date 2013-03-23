@@ -110,6 +110,7 @@ public class IOMain <T> extends Context {
 
 
         // make result directories
+        cleanUpDestinationDirectory(this.resultsDirectory);
         //noinspection ResultOfMethodCallIgnored
         final boolean resultsDirJustCreated = this.resultsDirectory.mkdirs();
 
@@ -134,6 +135,19 @@ public class IOMain <T> extends Context {
             } catch (Exception e) {
                 throw new IllegalStateException(
                         getFileStructureFromExplodedArchiveCannotBeCleaned(extractionDeletionInstance.getFileFinal()));
+            }
+        }
+    }
+
+    private void cleanUpDestinationDirectory(final File resultsDirectory) {
+        if (null != resultsDirectory && resultsDirectory.exists()) {
+            File[] contents = resultsDirectory.listFiles();
+
+            if (null != contents) {
+                for (File file : contents) {
+                    //noinspection ResultOfMethodCallIgnored
+                    file.delete();
+                }
             }
         }
     }
