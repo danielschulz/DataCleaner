@@ -10,14 +10,15 @@ import java.util.TreeMap;
  * @author Daniel Schulz
  */
 @SuppressWarnings("UnusedDeclaration")
-public abstract class PatientsHealthMapping {
+public abstract class PatientsHealthMapping extends PatientsSexMapping {
 
     private final TreeMap<String, HealthState> patientToDiagnosis;
 
-    protected PatientsHealthMapping() {
+    public PatientsHealthMapping() {
 
         this.patientToDiagnosis = new TreeMap<String, HealthState>();
 
+        patientToDiagnosis.put("APPLE",         HealthState.healthy);
         patientToDiagnosis.put("Albert",        HealthState.healthy);
         patientToDiagnosis.put("Eva",           HealthState.healthy);
         patientToDiagnosis.put("Gabriella",     HealthState.healthy);
@@ -26,7 +27,7 @@ public abstract class PatientsHealthMapping {
         patientToDiagnosis.put("Steven",        HealthState.diagnosedPD);
     }
 
-    protected final HealthState getHealthState(String patientId) {
+    public final HealthState getHealthState(String patientId) {
         return patientToDiagnosis.get(patientId);
     }
 }

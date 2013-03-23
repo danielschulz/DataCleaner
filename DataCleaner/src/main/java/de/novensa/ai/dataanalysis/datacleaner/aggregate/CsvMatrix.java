@@ -20,26 +20,8 @@ public class CsvMatrix<T> {
 
     public CsvMatrix(CSVReader<CsvMatrixRow<T>> reader, T[] fileNameInfo) throws IOException {
 
-        /*
-        > throws ClassCastExceptions for reasons unknown: signature have to be
-        public CsvMatrix(List<CsvMatrixRow<T>> data)
-        then.
-
-        List<CsvMatrixRow<T>> list = new ArrayList<CsvMatrixRow<T>>(data.size());
-        for (CsvMatrixRow<T> rows : data) {
-            list.add(rows);
-        }
-        */
-
         List<CsvMatrixRow<T>> data = reader.readAll();
-
         List<CsvMatrixRow<T>> list = new ArrayList<CsvMatrixRow<T>>(data.size());
-
-        //noinspection unchecked
-        /*for (T[] row : (List<T[]>) data) {
-            list.add(new CsvMatrixRow<T>(row));
-        }*/
-        // list.addAll(data);
 
         for (CsvMatrixRow<T> row : data) {
             list.add(new CsvMatrixRow<T>(row, fileNameInfo));

@@ -11,13 +11,16 @@ public abstract class SynonymToPatientIdentificationMapping {
 
     private final TreeMap<String, String> specialSynonyms;
 
-    protected SynonymToPatientIdentificationMapping() {
+    public SynonymToPatientIdentificationMapping() {
         this.specialSynonyms = new TreeMap<String, String>();
         specialSynonyms.put("Alberto", "Albert");
     }
 
-    @SuppressWarnings("UnusedDeclaration")
-    protected final String getPatientIdentificatorIgnoringSynonyms(String possiblyTheSynonym) {
+    public final String getPatientIdentificatorIgnoringSynonyms(String possiblyTheSynonym) {
         return this.specialSynonyms.get(possiblyTheSynonym);
+    }
+
+    public final boolean hasPatientIdentificatorIgnoringSynonyms(String possiblyTheSynonym) {
+        return null != this.specialSynonyms.get(possiblyTheSynonym);
     }
 }

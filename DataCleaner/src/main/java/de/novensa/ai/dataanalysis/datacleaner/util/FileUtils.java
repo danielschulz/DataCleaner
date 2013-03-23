@@ -41,10 +41,17 @@ public class FileUtils {
         final File file = new File(resultDirectory + Constants.DOUBLE_BACK_SLASH + fileName);
 
         if (null != content && null != content.getData() && 1 <= content.getData().getRowSize()) {
-            FileOutputStream fos = new FileOutputStream(file);
-            BufferedOutputStream bos = new BufferedOutputStream(fos);
+            // contents
             byte[] bytes = getCharSequence(content).toString().getBytes();
+
+            // file streams
+            FileOutputStream fos = new FileOutputStream(file);
+            BufferedOutputStream bos = new BufferedOutputStream(fos, bytes.length);
             bos.write(bytes);
+
+            // end streams
+            fos.close();
+            bos.close();
         }
 
         return null;

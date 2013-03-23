@@ -1,7 +1,6 @@
 package de.novensa.ai.dataanalysis.datacleaner.io;
 
 import com.googlecode.jcsv.CSVStrategy;
-import com.googlecode.jcsv.reader.CSVEntryParser;
 import com.googlecode.jcsv.reader.CSVReader;
 import com.googlecode.jcsv.reader.internal.CSVReaderBuilder;
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvDataFrame;
@@ -38,7 +37,7 @@ public class LoadCsvContents<T> extends Context {
     public Map<String, HeaderSignatureSensitiveBucket<T>> exploreJustExtractedFiles(
             List<ExtractionDeletionInstance> extractionDeletionInstances) throws IOException {
 
-        CSVReaderBuilder builder;
+        CSVReaderBuilder<CsvMatrixRow<T>> builder;
         Map<String, CsvDataFrame<T>> resultMap = new TreeMap<String, CsvDataFrame<T>>();
 
         for (ExtractionDeletionInstance instance : extractionDeletionInstances) {
@@ -49,7 +48,7 @@ public class LoadCsvContents<T> extends Context {
 
                 if (file.exists() && file.canRead()) {
                     FileReader fileReaderForBuilder = new FileReader(file);
-                    builder = new CSVReaderBuilder(fileReaderForBuilder);
+                    builder = new CSVReaderBuilder<CsvMatrixRow<T>>(fileReaderForBuilder);
 
                     builder.strategy(CSVStrategy.UK_DEFAULT);
 
@@ -60,6 +59,7 @@ public class LoadCsvContents<T> extends Context {
                     //noinspection unchecked
                     String key = surefireRelativePathPasting(
                             file.getCanonicalPath(), workingDirectoryPath, workingDirectoryLength);
+                    //noinspection unchecked
                     T[] fileNameInfo = (T[]) key.split("\\\\")[2].split("\\.")[0].split("_");
                     //noinspection unchecked
                     CsvDataFrame<T> csvDataFrame = CsvDataFrame.getCsvDataFrame(reader, fileNameInfo);
