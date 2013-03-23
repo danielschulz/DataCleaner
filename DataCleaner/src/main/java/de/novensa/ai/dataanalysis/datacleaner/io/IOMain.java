@@ -2,6 +2,9 @@ package de.novensa.ai.dataanalysis.datacleaner.io;
 
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvDataFrame;
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvMatrix;
+import de.novensa.ai.dataanalysis.datacleaner.io.fileFilter.CombinedFileFilter;
+import de.novensa.ai.dataanalysis.datacleaner.io.fileFilter.FractionFileFilter;
+import de.novensa.ai.dataanalysis.datacleaner.io.fileFilter.TarBz2ArchivesFileFilter;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.*;
 import de.novensa.ai.dataanalysis.datacleaner.util.CommandLineUtils;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionInstance;
@@ -9,8 +12,10 @@ import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionStrategy;
 import de.novensa.ai.dataanalysis.datacleaner.util.FileUtils;
 import org.apache.commons.cli.*;
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.*;
 
@@ -22,11 +27,13 @@ import java.util.*;
 public class IOMain <T> extends Context {
 
     private final File resultsDirectory;
+    private final FractionFileFilter fractionFileFilter;
 
     private final SkyContext context;
     private static final TarBz2ArchivesFileFilter TAR_BZ_2_ARCHIVES_FILE_FILTER = new TarBz2ArchivesFileFilter();
 
-    public IOMain(Pair<String, String> directories) {
+
+    public IOMain(Triplet<String, String, FractionFileFilter> directories) {
         if (null == directories) {
             throw new IllegalArgumentException(ErrorMessages.NULL_INITIALIZATION_NOT_ALLOWED_HERE);
         }
@@ -46,6 +53,7 @@ public class IOMain <T> extends Context {
 
         this.context = new SkyContext(workingDir);
         this.resultsDirectory = new File(getCanonicalForm(workingDir) + resultsDir);
+        this.fractionFileFilter = directories.getValue2();
     }
 
     private static String getCanonicalForm(final String dir) {
@@ -68,8 +76,12 @@ public class IOMain <T> extends Context {
 
         // identify upcoming work
         final File wd = new File(getContext().getWorkingDir());
-        final File[] filesToExtract = wd.listFiles(TAR_BZ_2_ARCHIVES_FILE_FILTER);
-
+        // if there is no FractionFileFilter than just take TAR_BZ2-FileFilter 'natively'; else take 'em both in
+        // the container file filter class
+        final FileFilter fileFilter = null == this.fractionFileFilter ?
+                TAR_BZ_2_ARCHIVES_FILE_FILTER :
+                new CombinedFileFilter(TAR_BZ_2_ARCHIVES_FILE_FILTER, this.fractionFileFilter);
+        final File[] filesToExtract = wd.listFiles(fileFilter);
 
         // process extraction
         List<ExtractionDeletionInstance> extractionDeletionInstances = new ArrayList<ExtractionDeletionInstance>();

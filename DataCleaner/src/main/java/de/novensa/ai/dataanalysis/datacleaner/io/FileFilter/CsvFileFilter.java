@@ -1,4 +1,4 @@
-package de.novensa.ai.dataanalysis.datacleaner.io;
+package de.novensa.ai.dataanalysis.datacleaner.io.fileFilter;
 
 import org.apache.commons.io.FilenameUtils;
 

@@ -65,8 +65,6 @@ public class LoadCsvContents<T> extends Context {
                     CsvDataFrame<T> csvDataFrame = CsvDataFrame.getCsvDataFrame(reader, fileNameInfo);
 
 
-                    System.out.println(key);
-
                     if(!resultMap.containsKey(key)) {
                         resultMap.put(key, csvDataFrame);
                     } else {
