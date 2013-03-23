@@ -19,6 +19,8 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.*;
 
+import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.ErrorMessages.getFileStructureFromExplodedArchiveCannotBeCleaned;
+
 /**
  * The process starting by reading data from FS.
  *
@@ -130,8 +132,8 @@ public class IOMain <T> extends Context {
             try {
                 extractionDeletionInstance.forceToCleanEverything();
             } catch (Exception e) {
-                throw new IllegalStateException(ErrorMessages.getFileStructureFromExplodedArchiveCannotBeCleaned(
-                        extractionDeletionInstance.getFileFinal()));
+                throw new IllegalStateException(
+                        getFileStructureFromExplodedArchiveCannotBeCleaned(extractionDeletionInstance.getFileFinal()));
             }
         }
     }

@@ -6,6 +6,7 @@ import org.apache.commons.cli.*;
 import org.javatuples.Triplet;
 
 import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants.*;
+import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.ErrorMessages.*;
 
 /**
  * Does the processing of command line arguments.
@@ -56,25 +57,26 @@ public class CommandLineUtils {
                         commandLine.getOptionValue(RESULTS_DIRECTORY_OPTION_ARGUMENT_NAME) :
                         Constants.RESULTS_DIRECTORY;
 
+        final String fractionFilesToTake = commandLine.getOptionValue(FRACTION_FILES_TO_TAKE_OPTION_ARGUMENT_NAME);
+        FractionFileFilter fractionFileFilter = null;
         try {
             //noinspection ConstantConditions
-            final double ratioFilesToVanish =
-                    commandLine.hasOption(FRACTION_FILES_TO_TAKE_OPTION_ARGUMENT_NAME) ?
-                            Double.parseDouble(
-                                    commandLine.getOptionValue(FRACTION_FILES_TO_TAKE_OPTION_ARGUMENT_NAME)) :
-                            null;
+            if (null != fractionFilesToTake && commandLine.hasOption(FRACTION_FILES_TO_TAKE_OPTION_ARGUMENT_NAME)) {
+                final double ratioFilesToVanish = Double.parseDouble(fractionFilesToTake);
 
-            FractionFileFilter fractionFileFilter;
-            if (0 < ratioFilesToVanish && 1 >= ratioFilesToVanish) {
-                fractionFileFilter = new FractionFileFilter(1.0 - ratioFilesToVanish);
-            } else {
-                throw new IllegalArgumentException(Constants.COMMAND_LINE_WAS_NOT_SUPPLIED_A_VALID_RATIO_VALUE);
+                if (0 < ratioFilesToVanish && 1 > ratioFilesToVanish) {
+                    fractionFileFilter = new FractionFileFilter(1.0 - ratioFilesToVanish);
+                } else {
+                    throw new IllegalArgumentException(getCommandLineWasNotSuppliedAValidRatioValue(ratioFilesToVanish));
+                }
             }
 
             return new Triplet<String, String, FractionFileFilter>
                     (workingDirectory, resultsDirectory, fractionFileFilter);
         } catch (NumberFormatException nfe) {
-            throw new IllegalArgumentException(COMMAND_LINE_WAS_NOT_SUPPLIED_A_VALID_RATIO_VALUE);
+            throw new IllegalArgumentException(getCommandLineWasNotSuppliedAValidRatioValue(fractionFilesToTake));
+        } catch (NullPointerException npe) {
+            throw new IllegalArgumentException(getCommandLineWasNotSuppliedAValidRatioValue(fractionFilesToTake));
         }
     }
 }

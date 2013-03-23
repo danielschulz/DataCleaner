@@ -64,25 +64,38 @@ public class ErrorMessages {
     public static final String LIST_ITEM_HAS_TO_BE_PRESENT_HERE = "The list item one (no. zero) has to be present " +
             "at this time and cannot be null either.";
 
+    private static final String COMMAND_LINE_WAS_NOT_SUPPLIED_A_VALID_RATIO_VALUE = "The provided value %s " +
+            "for ratio for files to take is not a valid ratio. Please provide a value greater than zero and at " +
+            "most one: (0...1) -- the value cannot be identical to the borders zero and one.";
+
+
     // METHODS
-    public static String getFilenameInvalid(String workingDirectory, File filename) {
+    public static String getFilenameInvalid(final String workingDirectory, final File filename) {
         return String.format(FILENAME_INVALID, workingDirectory, filename.getName());
     }
 
-    public static String getFileStructureFromExplodedArchiveCannotBeCleaned(File filename) {
+    public static String getFileStructureFromExplodedArchiveCannotBeCleaned(final File filename) {
         return String.format(FILE_STRUCTURE_FROM_EXPLODED_ARCHIVE_CANNOT_BE_CLEANED, filename);
     }
 
-    public static String getWorkingDirectoryCannotBeFound(String workingDirectory) {
+    public static String getWorkingDirectoryCannotBeFound(final String workingDirectory) {
         return String.format(WORKING_DIRECTORY_CANNOT_BE_FOUND, workingDirectory);
     }
 
-    public static String getDuplicatedFileIdentification(String fileIdentification) {
+    public static String getDuplicatedFileIdentification(final String fileIdentification) {
         return String.format(DUPLICATED_FILE_IDENTIFICATION, fileIdentification);
     }
 
     public static String getArgumentDirectoryNotFoundInArguments(final String directoryType) {
         //noinspection MalformedFormatString
         return String.format(ARGUMENT_DIRECTORY_NOT_FOUND_IN_ARGUMENTS, directoryType);
+    }
+
+    public static String getCommandLineWasNotSuppliedAValidRatioValue(final double d) {
+        return String.format(COMMAND_LINE_WAS_NOT_SUPPLIED_A_VALID_RATIO_VALUE, d);
+    }
+
+    public static String getCommandLineWasNotSuppliedAValidRatioValue(final String d) {
+        return String.format(COMMAND_LINE_WAS_NOT_SUPPLIED_A_VALID_RATIO_VALUE, d);
     }
 }

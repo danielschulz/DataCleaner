@@ -43,7 +43,8 @@ public interface Constants {
 
     String FRACTION_FILES_TO_TAKE_OPTION_DESCRIPTION = "This option specifies the fraction of file to choose " +
             "and process from the working directory. Choose 1.0 to take everything and zeo to leave out all " +
-            "files. The FractionFileFilter therefore will only be applied for any value in (0...1] -- mathematically.";
+            "files. The FractionFileFilter therefore will only be applied for any value in (0...1) -- mathematically " +
+            "except the borders zero and one.";
     String FRACTION_FILES_TO_TAKE_OPTION_ARGUMENT_NAME = "fractionFilesToTake";
     String FRACTION_FILES_TO_TAKE_LONG_OPT_VALUE = FRACTION_FILES_TO_TAKE_OPTION_ARGUMENT_NAME;
 
@@ -51,6 +52,4 @@ public interface Constants {
     String LINE_BREAK = System.getProperty("line.separator");
 
     String RESULTS_FILE_NAME_PATTERN = "result_%s." + CsvFileFilter.DEFAULT_FILE_ENDING;
-    String COMMAND_LINE_WAS_NOT_SUPPLIED_A_VALID_RATIO_VALUE = "The provided value for ratio for files to take is " +
-            "not a valid ratio. Please provide a value greater than zero and at most one: (0...1] .";
 }
