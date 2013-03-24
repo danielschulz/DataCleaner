@@ -44,21 +44,42 @@ public class FileUtils {
     public static <T> File writeFile(final File resultDirectory, final String fileName, final CsvDataFrame<T> content)
             throws IOException {
 
-        final File file = new File(resultDirectory + Constants.DOUBLE_BACK_SLASH + fileName);
 
         if (null != content && null != content.getData() && 1 <= content.getData().getRowSize()) {
             // contents
             byte[] bytes = getCharSequence(content).toString().getBytes();
+            return writeFile(resultDirectory, fileName, bytes);
+        }
+
+        return null;
+    }
+
+
+    @SuppressWarnings("UnusedDeclaration")
+    public static <T> File writeFile(final File resultDirectory, final String fileName, final CharSequence content)
+            throws IOException {
+
+        return null != content ? writeFile(resultDirectory, fileName, content.toString().getBytes()) : null;
+    }
+
+
+    public static <T> File writeFile(final File resultDirectory, final String fileName, final byte[] content)
+            throws IOException {
+
+        if (null != content) {
 
             // file streams
+            final File file = new File(resultDirectory + Constants.DOUBLE_BACK_SLASH + fileName);
             FileOutputStream fos = new FileOutputStream(file);
-            ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+            ByteBuffer byteBuffer = ByteBuffer.wrap(content);
             FileChannel channel = fos.getChannel();
             channel.write(byteBuffer);
 
             // end streams
             closeQuietly(fos);
             closeQuietly(channel);
+
+            return file;
         }
 
         return null;
