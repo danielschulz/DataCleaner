@@ -19,12 +19,22 @@ public abstract class PatientsHealthMapping extends PatientsSexMapping {
         this.patientToDiagnosis = new TreeMap<String, HealthState>();
 
         patientToDiagnosis.put("APPLE",         HealthState.healthy);
-        patientToDiagnosis.put("Albert",        HealthState.healthy);
-        patientToDiagnosis.put("Eva",           HealthState.healthy);
-        patientToDiagnosis.put("Gabriella",     HealthState.healthy);
-        patientToDiagnosis.put("Marilyn",       HealthState.diagnosedPD);
-        patientToDiagnosis.put("Peter",         HealthState.healthy);
-        patientToDiagnosis.put("Steven",        HealthState.diagnosedPD);
+        patientToDiagnosis.put("CHERRY",        HealthState.healthy);
+        patientToDiagnosis.put("CROCUS",        HealthState.healthy);
+        patientToDiagnosis.put("DAFODIL",       HealthState.healthy);
+        patientToDiagnosis.put("DAISY",         HealthState.healthy);
+        patientToDiagnosis.put("FLOX",          HealthState.healthy);
+        patientToDiagnosis.put("IRIS",          HealthState.healthy);
+        patientToDiagnosis.put("LILLY",         HealthState.healthy);
+        patientToDiagnosis.put("MAPLE",         HealthState.healthy);
+        patientToDiagnosis.put("ORANGE",        HealthState.healthy);
+        patientToDiagnosis.put("ORCHID",        HealthState.healthy);
+        patientToDiagnosis.put("PEONY",         HealthState.healthy);
+        patientToDiagnosis.put("ROSE",          HealthState.healthy);
+        patientToDiagnosis.put("SUNFLOWER",     HealthState.healthy);
+        patientToDiagnosis.put("SWEETPEA",      HealthState.healthy);
+        patientToDiagnosis.put("TESTCLIQ",      HealthState.healthy);
+        patientToDiagnosis.put("VIOLET",        HealthState.healthy);
     }
 
     public final HealthState getHealthState(String patientId) {

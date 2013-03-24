@@ -13,7 +13,8 @@ public abstract class SynonymToPatientIdentificationMapping {
 
     public SynonymToPatientIdentificationMapping() {
         this.specialSynonyms = new TreeMap<String, String>();
-        specialSynonyms.put("Alberto", "Albert");
+        specialSynonyms.put("DAISEY", "DAISY");
+        specialSynonyms.put("LILY", "LILLY");
     }
 
     public final String getPatientIdentificatorIgnoringSynonyms(String possiblyTheSynonym) {

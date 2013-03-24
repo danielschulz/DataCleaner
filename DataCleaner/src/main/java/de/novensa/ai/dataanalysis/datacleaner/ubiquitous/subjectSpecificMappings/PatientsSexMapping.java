@@ -1,5 +1,8 @@
 package de.novensa.ai.dataanalysis.datacleaner.ubiquitous.subjectSpecificMappings;
 
+import de.novensa.ai.dataanalysis.datacleaner.aggregate.HealthState;
+import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants;
+
 import java.util.TreeMap;
 
 /**
@@ -18,17 +21,29 @@ public abstract class PatientsSexMapping extends SynonymToPatientIdentificationM
     @SuppressWarnings("FieldCanBeLocal")
     private final String MALE = "m";
 
+    private final String UNKNOWN_SEX = Constants.UNKNOWN_VALUE_IN_RESULT;
+
     public PatientsSexMapping() {
 
         this.patientsSex = new TreeMap<String, String>();
 
-        patientsSex.put("APPLE",        MALE);
-        patientsSex.put("Albert",       MALE);
-        patientsSex.put("Eva",          FEMALE);
-        patientsSex.put("Gabriella",    FEMALE);
-        patientsSex.put("Marilyn",      FEMALE);
-        patientsSex.put("Peter",        MALE);
-        patientsSex.put("Steven",       MALE);
+        patientsSex.put("APPLE",         UNKNOWN_SEX);
+        patientsSex.put("CHERRY",        UNKNOWN_SEX);
+        patientsSex.put("CROCUS",        UNKNOWN_SEX);
+        patientsSex.put("DAFODIL",       UNKNOWN_SEX);
+        patientsSex.put("DAISY",         UNKNOWN_SEX);
+        patientsSex.put("FLOX",          UNKNOWN_SEX);
+        patientsSex.put("IRIS",          UNKNOWN_SEX);
+        patientsSex.put("LILLY",         UNKNOWN_SEX);
+        patientsSex.put("MAPLE",         UNKNOWN_SEX);
+        patientsSex.put("ORANGE",        UNKNOWN_SEX);
+        patientsSex.put("ORCHID",        UNKNOWN_SEX);
+        patientsSex.put("PEONY",         UNKNOWN_SEX);
+        patientsSex.put("ROSE",          UNKNOWN_SEX);
+        patientsSex.put("SUNFLOWER",     UNKNOWN_SEX);
+        patientsSex.put("SWEETPEA",      UNKNOWN_SEX);
+        patientsSex.put("TESTCLIQ",      UNKNOWN_SEX);
+        patientsSex.put("VIOLET",        UNKNOWN_SEX);
     }
 
 

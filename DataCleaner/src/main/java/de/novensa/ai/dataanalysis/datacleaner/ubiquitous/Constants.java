@@ -52,4 +52,5 @@ public interface Constants {
     String LINE_BREAK = System.getProperty("line.separator");
 
     String RESULTS_FILE_NAME_PATTERN = "result_%s." + CsvFileFilter.DEFAULT_FILE_ENDING;
+    String UNKNOWN_VALUE_IN_RESULT = "NA";
 }
