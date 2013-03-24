@@ -20,7 +20,7 @@ public interface Constants {
     public static final FractionFileFilter FRACTION_FILE_FILTER_TAKES_ANY = new FractionFileFilter(1);
 
     // technical constants
-    public static final int BUFFER_SIZE = 1024*1024;     // size of buffer to load and write files with
+    public static final int BUFFER_SIZE = 4*1024*1024;     // size of buffer to load and write files with
     // delimiter character(s) used internally to aggregate the signature id
     public static final String HEADER_SIGNATURES_DELIMITER = ";";
 

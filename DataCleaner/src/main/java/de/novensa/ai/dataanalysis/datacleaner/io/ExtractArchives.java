@@ -110,8 +110,10 @@ public class ExtractArchives extends Context {
                         while (-1 != (count = tarArchiveInputStream.read(buffer))) {
                             bufferedOutputStream.write(buffer, 0, count);
                         }
-                        bufferedOutputStream.flush();
-                        bufferedOutputStream.close();
+                        if (null != bufferedOutputStream) {
+                            bufferedOutputStream.flush();
+                        }
+                        closeQuietly(bufferedOutputStream);
                     }
                 }
             }
