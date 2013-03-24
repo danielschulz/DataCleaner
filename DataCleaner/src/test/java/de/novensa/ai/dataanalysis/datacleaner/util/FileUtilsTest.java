@@ -1,5 +1,6 @@
 package de.novensa.ai.dataanalysis.datacleaner.util;
 
+import de.novensa.ai.dataanalysis.datacleaner.io.FileUtils;
 import junit.framework.TestCase;
 
 public class FileUtilsTest extends TestCase {

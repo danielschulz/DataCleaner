@@ -1,4 +1,4 @@
-package de.novensa.ai.dataanalysis.datacleaner.util;
+package de.novensa.ai.dataanalysis.datacleaner.io;
 
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvDataFrame;
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvMatrixRow;

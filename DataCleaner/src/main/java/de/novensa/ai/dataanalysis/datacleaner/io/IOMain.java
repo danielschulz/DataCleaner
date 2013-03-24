@@ -9,7 +9,6 @@ import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.*;
 import de.novensa.ai.dataanalysis.datacleaner.util.CommandLineUtils;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionInstance;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionStrategy;
-import de.novensa.ai.dataanalysis.datacleaner.util.FileUtils;
 import org.apache.commons.cli.*;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
