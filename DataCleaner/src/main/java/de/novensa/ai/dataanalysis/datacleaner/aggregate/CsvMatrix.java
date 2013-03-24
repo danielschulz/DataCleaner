@@ -18,7 +18,7 @@ public class CsvMatrix<T> {
 
     private final List<CsvMatrixRow<T>> rows;
 
-    public CsvMatrix(CSVReader<CsvMatrixRow<T>> reader, T[] fileNameInfo) throws IOException {
+    public CsvMatrix(final CSVReader<CsvMatrixRow<T>> reader, final T[] fileNameInfo) throws IOException {
 
         List<CsvMatrixRow<T>> data = reader.readAll();
         List<CsvMatrixRow<T>> list = new ArrayList<CsvMatrixRow<T>>(data.size());
@@ -30,7 +30,7 @@ public class CsvMatrix<T> {
         this.rows = list;
     }
 
-    public CsvMatrix(List<List<T>> data) {
+    public CsvMatrix(final List<List<T>> data) {
 
         if (null != data && data.size() > 0) {
             if (data.get(0) instanceof CsvMatrixRow) {

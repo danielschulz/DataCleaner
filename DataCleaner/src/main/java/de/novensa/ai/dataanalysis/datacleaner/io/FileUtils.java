@@ -6,6 +6,8 @@ import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.subjectSpecificMappings.Mappings;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,7 @@ import java.util.Map;
 import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants.ESTIMATED_MEAN_CHARACTERS_PER_DATA_CELL;
 import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants.HEADER_SIGNATURES_DELIMITER;
 import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants.LINE_BREAK;
+import static org.apache.commons.io.IOUtils.closeQuietly;
 
 /**
  * Helps handling of files and file streams.
@@ -49,12 +52,13 @@ public class FileUtils {
 
             // file streams
             FileOutputStream fos = new FileOutputStream(file);
-            BufferedOutputStream bos = new BufferedOutputStream(fos, bytes.length);
-            bos.write(bytes);
+            ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+            FileChannel channel = fos.getChannel();
+            channel.write(byteBuffer);
 
             // end streams
-            fos.close();
-            bos.close();
+            closeQuietly(fos);
+            closeQuietly(channel);
         }
 
         return null;

@@ -29,7 +29,7 @@ public class CsvDataFrame<T> {
     private float healthStateSafeness = -1f;
 
 
-    public CsvDataFrame(List<String> header, CsvMatrix<T> data) {
+    public CsvDataFrame(final List<String> header, final CsvMatrix<T> data) {
         this.header = header;
         this.data = data;
     }
@@ -88,7 +88,7 @@ public class CsvDataFrame<T> {
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    public CsvMatrixRow<T> getDataItem(int row) {
+    public CsvMatrixRow<T> getDataItem(final int row) {
 
         if (0 > row && row >= this.data.getRowSize()) {
             throw new ArrayIndexOutOfBoundsException(ErrorMessages.ARRAY_INDEX_OUT_OF_BOUNDS_ON_LOAD_ROW);

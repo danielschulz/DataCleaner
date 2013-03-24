@@ -29,7 +29,7 @@ public class CsvMatrixRow<T> {
         this.cells = parsed;
     }
 
-    public CsvMatrixRow(final CsvMatrixRow<T> oldRow, T[] fileNameInfo) {
+    public CsvMatrixRow(final CsvMatrixRow<T> oldRow, final T[] fileNameInfo) {
 
         List<T> parsed = new ArrayList<T>(oldRow.getColumnSize() * Constants.ESTIMATED_MEAN_CHARACTERS_PER_DATA_CELL);
         parsed.addAll(oldRow.getCells());
@@ -40,7 +40,7 @@ public class CsvMatrixRow<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private List<T> getMedicalInfo(T[] medicalSubjectsPseudonym) {
+    private List<T> getMedicalInfo(final T[] medicalSubjectsPseudonym) {
         List<T> medicalInfo = new ArrayList<T>(MEDICAL_INFO_ITEM_COUNT + medicalSubjectsPseudonym.length - 1);
 
         T patientId = medicalSubjectsPseudonym[2];
