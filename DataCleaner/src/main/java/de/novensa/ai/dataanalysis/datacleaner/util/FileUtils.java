@@ -37,6 +37,7 @@ public class FileUtils {
         return writtenFiles;
     }
 
+
     public static <T> File writeFile(final File resultDirectory, final String fileName, final CsvDataFrame<T> content)
             throws IOException {
 
@@ -58,6 +59,7 @@ public class FileUtils {
 
         return null;
     }
+
 
     private static <T> CharSequence getCharSequence(CsvDataFrame<T> content) {
 
@@ -114,72 +116,6 @@ public class FileUtils {
         return res;
     }
 
-    /*
-    private static <T> StringBuilder getSemanticEndRowInformation(CsvDataFrame<T> content) {
-        StringBuilder res = new StringBuilder();
-
-        res.append(content.getHealthState().ordinal()).append(Constants.HEADER_SIGNATURES_DELIMITER)
-                .append(content.getPatient()).append(Constants.HEADER_SIGNATURES_DELIMITER)
-                .append(content.getPatientsSex())
-                // technical line break for next row / instance
-                .append(Constants.LINE_BREAK);
-
-        return res;
-    }
-
-    public static File writeFile(final File resultDirectory, final String fileName, final CsvDataFrame content) throws IOException {
-
-        final File file = new File(resultDirectory + Constants.DOUBLE_BACK_SLASH + fileName);
-        //final int numberOfIterations = 1000000;
-        final int numberOfIterations = 1;
-
-        if (null != content && null != content.getData() && 1 <= content.getData().getRowSize()) {
-            @SuppressWarnings("unchecked")
-            final byte[] messageBytes = getDataFromCsvDataFrame(content).getBytes(Charset.forName("ISO-8859-1"));
-            final long appendSize = numberOfIterations * messageBytes.length;
-            final RandomAccessFile raf = new RandomAccessFile(file, "rw");
-            raf.seek(raf.length());
-            final FileChannel fc = raf.getChannel();
-            final MappedByteBuffer mbf = fc.map(FileChannel.MapMode.READ_WRITE, fc.position(), getAtMostIntegerMax(appendSize));
-            fc.close();
-            for (int i = 1; i < numberOfIterations; i++) {
-                mbf.put(messageBytes);
-            }
-            return file;
-        } else {
-            return null;
-        }
-    }
-
-    private static long getAtMostIntegerMax(long appendSize) {
-        return (long) Math.min(appendSize, Integer.MAX_VALUE);
-    }
-
-    private static <T> String getDataFromCsvDataFrame(CsvDataFrame<T> content) {
-        return getDataFromCsvDataFrame(content.getData());
-    }
-
-    private static <T> String getDataFromCsvDataFrame(CsvMatrix<T> data) {
-        StringBuilder res = new StringBuilder();
-
-        int cellCount = 0;
-        final int breakCount = data.getRowSize();
-
-        for (CsvMatrixRow<T> row : data.getRows()) {
-            for (T cell : row.getCells()) {
-                res.append(cell);
-
-                if (0 != cellCount++ % breakCount) {
-                    res.append(Constants.HEADER_SIGNATURES_DELIMITER);
-                } else {
-                    cellCount = 0;
-                }
-            }
-            res.append(Constants.LINE_BREAK);
-        }
-
-        return res.toString();
-    }*/
 
     public static String getFileNameWithUnixPrefix(String prefix, String fileName) {
 
