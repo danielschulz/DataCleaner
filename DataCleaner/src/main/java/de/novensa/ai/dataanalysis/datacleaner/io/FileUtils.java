@@ -56,14 +56,14 @@ public class FileUtils {
 
 
     @SuppressWarnings("UnusedDeclaration")
-    public static <T> File writeFile(final File resultDirectory, final String fileName, final CharSequence content)
+    public static File writeFile(final File resultDirectory, final String fileName, final CharSequence content)
             throws IOException {
 
         return null != content ? writeFile(resultDirectory, fileName, content.toString().getBytes()) : null;
     }
 
 
-    public static <T> File writeFile(final File resultDirectory, final String fileName, final byte[] content)
+    public static File writeFile(final File resultDirectory, final String fileName, final byte[] content)
             throws IOException {
 
         if (null != content) {
