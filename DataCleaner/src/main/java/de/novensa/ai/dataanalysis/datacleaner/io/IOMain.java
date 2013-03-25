@@ -33,15 +33,18 @@ public class IOMain <T> extends Context {
 
     private final SkyContext context;
     private static final TarBz2ArchivesFileFilter TAR_BZ_2_ARCHIVES_FILE_FILTER = new TarBz2ArchivesFileFilter();
+
     private final long startTime;
+    private final String[] args;
 
 
-    public IOMain(Triplet<String, String, FractionFileFilter> directories, final long startTime) {
+    public IOMain(Triplet<String, String, FractionFileFilter> directories, final long startTime, final String[] args) {
         if (null == directories) {
             throw new IllegalArgumentException(ErrorMessages.NULL_INITIALIZATION_NOT_ALLOWED_HERE);
         }
 
         this.startTime = startTime;
+        this.args = args;
 
         final String workingDir = directories.getValue0();
         final String resultsDir = directories.getValue1();
@@ -64,7 +67,7 @@ public class IOMain <T> extends Context {
 
     public static void main(String[] args) throws IOException, ParseException {
         final long startTime = System.currentTimeMillis();
-        IOMain ioMain = new IOMain(CommandLineUtils.parseCommandLine(args), startTime);
+        IOMain ioMain = new IOMain(CommandLineUtils.parseCommandLine(args), startTime, args);
         ioMain.processWorkingDirectory();
     }
 
@@ -114,8 +117,7 @@ public class IOMain <T> extends Context {
                 new ArrayList<File>(Arrays.asList(this.resultsDirectory)) : null;
 
         final long endTime = System.currentTimeMillis();
-        final long diffTimes = endTime - this.startTime;
-        final RuntimeInfo<T> runtimeInfo = new RuntimeInfo<T>(this.startTime, endTime, diffTimes, processedMap);
+        final RuntimeInfo<T> runtimeInfo = new RuntimeInfo<T>(this.startTime, endTime, processedMap, this.args);
 
         final List<File> writtenFiles = FileUtils.writeFiles(this.resultsDirectory, runtimeInfo);
 

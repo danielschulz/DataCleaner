@@ -1,5 +1,7 @@
 package de.novensa.ai.dataanalysis.datacleaner.aggregate;
 
+import com.google.common.base.Joiner;
+
 import java.util.Map;
 
 /**
@@ -16,12 +18,17 @@ public class RuntimeInfo<T> {
     private final long endTime;
     private final long diffTimes;
     private final Map<String, CsvDataFrame<T>> processedMap;
+    private final String commandLineArgs;
 
-    public RuntimeInfo(long startTime, long endTime, long diffTimes, Map<String, CsvDataFrame<T>> precessedMap) {
+    public RuntimeInfo(final long startTime, final long endTime,
+                       final Map<String, CsvDataFrame<T>> precessedMap, final String[] args) {
         this.startTime = startTime;
         this.endTime = endTime;
-        this.diffTimes = diffTimes;
+        this.diffTimes = endTime - startTime;
         this.processedMap = precessedMap;
+
+        Joiner joiner = Joiner.on(" ").skipNulls();
+        this.commandLineArgs = joiner.join(args);
     }
 
     public long getStartTime() {
@@ -38,5 +45,9 @@ public class RuntimeInfo<T> {
 
     public Map<String, CsvDataFrame<T>> getProcessedMap() {
         return processedMap;
+    }
+
+    public String getCommandLineArgs() {
+        return commandLineArgs;
     }
 }

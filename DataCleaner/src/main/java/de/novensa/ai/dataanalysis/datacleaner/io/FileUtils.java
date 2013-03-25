@@ -42,7 +42,8 @@ public class FileUtils {
         StringBuilder res = new StringBuilder(Constants.RUNTIME_INFO_FILE_INIT_SIZE);
         if (null != runtimeInfo) {
 
-            return String.format(Constants.RUNTIME_INFO_RESULT_TEXT,
+            return runtimeInfo.getCommandLineArgs() + LINE_BREAK + LINE_BREAK +
+                    String.format(Constants.RUNTIME_INFO_RESULT_TEXT,
                     runtimeInfo.getStartTime(), runtimeInfo.getEndTime(), runtimeInfo.getDiffTimes());
         }
 
