@@ -1,7 +1,11 @@
 package de.novensa.ai.dataanalysis.datacleaner.ubiquitous;
 
+import com.google.common.collect.UnmodifiableIterator;
 import de.novensa.ai.dataanalysis.datacleaner.io.fileFilter.CsvFileFilter;
 import de.novensa.ai.dataanalysis.datacleaner.io.fileFilter.FractionFileFilter;
+
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * Put any constants here.
@@ -56,8 +60,15 @@ public interface Constants {
     String RESULTS_FILE_NAME_PATTERN = "result_%s." + CsvFileFilter.DEFAULT_FILE_ENDING;
     String UNKNOWN_VALUE_IN_RESULT = "NA";
 
+    @SuppressWarnings("UnusedDeclaration")
     String ERROR_FILE_NAME = "errors.txt";
     String RUNTIME_INFO_FILE_NAME = "runtimeInfo.txt";
     public static final String RUNTIME_INFO_RESULT_TEXT =
             "process started, process ended, time difference" + LINE_BREAK + "%s, %s, %s";
+
+    final String[] WORKING_STATE_ITEM_LIST = new String[]{
+            "allocated files", "archives extracted", "read raw exploded files and mapped them",
+            "packed exploded files into data frames", "results written", "cleaned up working directory"};
+    final Iterator<String> WORKING_STATES = Arrays.asList(WORKING_STATE_ITEM_LIST).iterator();
+    String WORKING_STATE_TEMPLATE = "%s of %s done -- %s \t\t\t\t\t (@ %s ms to epoch)";
 }

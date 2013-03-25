@@ -37,6 +37,10 @@ public class IOMain <T> extends Context {
     private final long startTime;
     private final String[] args;
 
+    private final Iterator<String> workingStates = Constants.WORKING_STATES;
+    private int currentWorkingState = 1;
+    private final int workingStateCount = WORKING_STATE_ITEM_LIST.length;
+
 
     public IOMain(Triplet<String, String, FractionFileFilter> directories, final long startTime, final String[] args) {
         if (null == directories) {
@@ -72,6 +76,7 @@ public class IOMain <T> extends Context {
     }
 
     public void processWorkingDirectory() throws IOException {
+
         ExtractArchives extractor = new ExtractArchives(this.getContext());
         LoadCsvContents<T> csvLoader = new LoadCsvContents<T>(this.getContext());
 
@@ -83,6 +88,8 @@ public class IOMain <T> extends Context {
                 TAR_BZ_2_ARCHIVES_FILE_FILTER :
                 new CombinedFileFilter(TAR_BZ_2_ARCHIVES_FILE_FILTER, this.fractionFileFilter);
         final File[] filesToExtract = wd.listFiles(fileFilter);
+
+        workingState();
 
         // process extraction
         List<ExtractionDeletionInstance> extractionDeletionInstances = new ArrayList<ExtractionDeletionInstance>();
@@ -96,10 +103,13 @@ public class IOMain <T> extends Context {
             extractionDeletionInstance.clean();
         }
 
+        workingState();
 
-        //
         Map<String, HeaderSignatureSensitiveBucket<T>> signatureSensitiveMap =
                 csvLoader.exploreJustExtractedFiles(extractionDeletionInstances);
+
+        workingState();
+
         Map<String, CsvDataFrame<T>> processedMap = new TreeMap<String, CsvDataFrame<T>>();
 
         for (String key : signatureSensitiveMap.keySet()) {
@@ -107,6 +117,7 @@ public class IOMain <T> extends Context {
             processedMap.put(key, csvDataFrames);
         }
 
+        workingState();
 
         // make result directories
         cleanUpDestinationDirectory(this.resultsDirectory);
@@ -120,6 +131,8 @@ public class IOMain <T> extends Context {
         final RuntimeInfo<T> runtimeInfo = new RuntimeInfo<T>(this.startTime, endTime, processedMap, this.args);
 
         final List<File> writtenFiles = FileUtils.writeFiles(this.resultsDirectory, runtimeInfo);
+
+        workingState();
 
 
         // clean up again
@@ -139,6 +152,8 @@ public class IOMain <T> extends Context {
                         getFileStructureFromExplodedArchiveCannotBeCleaned(extractionDeletionInstance.getFileFinal()));
             }
         }
+
+        workingState();
     }
 
     private void cleanUpDestinationDirectory(final File resultsDirectory) {
@@ -186,6 +201,12 @@ public class IOMain <T> extends Context {
         } catch (IOException ioe) {
             return null;
         }
+    }
+
+    public void workingState() {
+        final String message = this.workingStates.next();
+        System.out.println(String.format(Constants.WORKING_STATE_TEMPLATE,
+                currentWorkingState++, workingStateCount, message, System.currentTimeMillis()));
     }
 
 

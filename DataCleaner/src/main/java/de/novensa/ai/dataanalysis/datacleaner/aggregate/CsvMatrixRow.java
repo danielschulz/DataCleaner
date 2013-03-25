@@ -41,6 +41,11 @@ public class CsvMatrixRow<T> {
 
     @SuppressWarnings("unchecked")
     private List<T> getMedicalInfo(final T[] medicalSubjectsPseudonym) {
+        if (null == medicalSubjectsPseudonym) {
+            return new ArrayList<T>(1);
+        }
+
+
         List<T> medicalInfo = new ArrayList<T>(MEDICAL_INFO_ITEM_COUNT + medicalSubjectsPseudonym.length - 1);
 
         if (null != medicalSubjectsPseudonym) {

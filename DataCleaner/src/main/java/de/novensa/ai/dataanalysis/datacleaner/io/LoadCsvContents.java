@@ -66,18 +66,20 @@ public class LoadCsvContents<T> extends Context {
                         String[] strings = keyStrings[2].split("\\.");
                         if (1 <= strings.length) {
                             fileNameInfo = (T[]) strings[0].split("_");
+
+
+                            //noinspection unchecked
+                            CsvDataFrame<T> csvDataFrame = CsvDataFrame.getCsvDataFrame(reader, fileNameInfo);
+
+
+                            if(!resultMap.containsKey(key)) {
+                                resultMap.put(key, csvDataFrame);
+                            } else {
+                                throw new IllegalStateException(ErrorMessages.getDuplicatedFileIdentification(key));
+                            }
                         }
                     }
 
-                    //noinspection unchecked
-                    CsvDataFrame<T> csvDataFrame = CsvDataFrame.getCsvDataFrame(reader, fileNameInfo);
-
-
-                    if(!resultMap.containsKey(key)) {
-                        resultMap.put(key, csvDataFrame);
-                    } else {
-                        throw new IllegalStateException(ErrorMessages.getDuplicatedFileIdentification(key));
-                    }
 
                     fileReaderForBuilder.close();
                 }
