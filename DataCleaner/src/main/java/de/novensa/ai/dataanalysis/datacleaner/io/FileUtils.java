@@ -31,9 +31,9 @@ public class FileUtils {
             throws IOException {
 
         List<File> files = null != runtimeInfo && null != runtimeInfo.getProcessedMap() ?
-                writeFiles(resultsDirectory, runtimeInfo.getProcessedMap()) : null;
+                writeFiles(resultsDirectory, runtimeInfo.getProcessedMap()) : new ArrayList<File>(1);
 
-        writeFile(resultsDirectory, Constants.RUNTIME_INFO_FILE_NAME, getRuntimeInfo(runtimeInfo));
+        files.add(writeFile(resultsDirectory, Constants.RUNTIME_INFO_FILE_NAME, getRuntimeInfo(runtimeInfo)));
 
         return files;
     }
