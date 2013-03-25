@@ -4,6 +4,8 @@ import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants;
 
 import java.util.TreeMap;
 
+import static de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants.UNKNOWN_VALUE_IN_RESULT;
+
 /**
  * The mapping patient to it´s sex.
  *
@@ -15,72 +17,62 @@ public abstract class PatientsAgeMapping extends SynonymToPatientIdentificationM
     private final TreeMap<String, String> patientsAge;
     private final TreeMap<String, String> patientsAgeDiagnosisPut;
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private final String YOUNG = "1";
-
-    @SuppressWarnings("FieldCanBeLocal")
-    private final String MATURE = "2";
-    
-    @SuppressWarnings("FieldCanBeLocal")
-    private final String ELDERLY = "3";
-
-    private final String UNKNOWN_AGE = Constants.UNKNOWN_VALUE_IN_RESULT;
 
     public PatientsAgeMapping() {
 
         // patient´s current age
         this.patientsAge = new TreeMap<String, String>();
 
-        patientsAge.put("APPLE",        UNKNOWN_AGE);
-        patientsAge.put("CHERRY",       UNKNOWN_AGE);
-        patientsAge.put("CROCUS",       UNKNOWN_AGE);
-        patientsAge.put("DAFODIL",      UNKNOWN_AGE);
-        patientsAge.put("DAISY",        UNKNOWN_AGE);
-        patientsAge.put("FLOX",         UNKNOWN_AGE);
-        patientsAge.put("IRIS",         UNKNOWN_AGE);
-        patientsAge.put("LILLY",        UNKNOWN_AGE);
-        patientsAge.put("MAPLE",        UNKNOWN_AGE);
-        patientsAge.put("ORANGE",       UNKNOWN_AGE);
-        patientsAge.put("ORCHID",       UNKNOWN_AGE);
-        patientsAge.put("PEONY",        UNKNOWN_AGE);
-        patientsAge.put("ROSE",         UNKNOWN_AGE);
-        patientsAge.put("SUNFLOWER",    UNKNOWN_AGE);
-        patientsAge.put("SWEETPEA",     UNKNOWN_AGE);
-        patientsAge.put("TESTCLIQ",     UNKNOWN_AGE);
-        patientsAge.put("VIOLET",       UNKNOWN_AGE);
+        patientsAge.put("APPLE",        "77");
+        patientsAge.put("CHERRY",       "55");
+        patientsAge.put("CROCUS",       "46");
+        patientsAge.put("DAFODIL",      "42");
+        patientsAge.put("DAISY",        "54");
+        patientsAge.put("FLOX",         "57");
+        patientsAge.put("IRIS",         "65");
+        patientsAge.put("LILLY",        "53");
+        patientsAge.put("MAPLE",        "55");
+        patientsAge.put("ORANGE",       "57");
+        patientsAge.put("ORCHID",       "69");
+        patientsAge.put("PEONY",        "80");
+        patientsAge.put("ROSE",         "55");
+        patientsAge.put("SUNFLOWER",    "67");
+        patientsAge.put("SWEETPEA",     "77");
+        patientsAge.put("TESTCLIQ",     UNKNOWN_VALUE_IN_RESULT);
+        patientsAge.put("VIOLET",       "55");
 
 
         // diagnosis put
         this.patientsAgeDiagnosisPut = new TreeMap<String, String>();
 
-        patientsAgeDiagnosisPut.put("APPLE",        UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("CHERRY",       UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("CROCUS",       UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("DAFODIL",      UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("DAISY",        UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("FLOX",         UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("IRIS",         UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("LILLY",        UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("MAPLE",        UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("ORANGE",       UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("ORCHID",       UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("PEONY",        UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("ROSE",         UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("SUNFLOWER",    UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("SWEETPEA",     UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("TESTCLIQ",     UNKNOWN_AGE);
-        patientsAgeDiagnosisPut.put("VIOLET",       UNKNOWN_AGE);
+        patientsAgeDiagnosisPut.put("APPLE",        UNKNOWN_VALUE_IN_RESULT);
+        patientsAgeDiagnosisPut.put("CHERRY",       "51");
+        patientsAgeDiagnosisPut.put("CROCUS",       "41");
+        patientsAgeDiagnosisPut.put("DAFODIL",      UNKNOWN_VALUE_IN_RESULT);
+        patientsAgeDiagnosisPut.put("DAISY",        "52");
+        patientsAgeDiagnosisPut.put("FLOX",         "47");
+        patientsAgeDiagnosisPut.put("IRIS",         "45");
+        patientsAgeDiagnosisPut.put("LILLY",        UNKNOWN_VALUE_IN_RESULT);
+        patientsAgeDiagnosisPut.put("MAPLE",        "46");
+        patientsAgeDiagnosisPut.put("ORANGE",       UNKNOWN_VALUE_IN_RESULT);
+        patientsAgeDiagnosisPut.put("ORCHID",       "65");
+        patientsAgeDiagnosisPut.put("PEONY",        "67");
+        patientsAgeDiagnosisPut.put("ROSE",         UNKNOWN_VALUE_IN_RESULT);
+        patientsAgeDiagnosisPut.put("SUNFLOWER",    UNKNOWN_VALUE_IN_RESULT);
+        patientsAgeDiagnosisPut.put("SWEETPEA",     UNKNOWN_VALUE_IN_RESULT);
+        patientsAgeDiagnosisPut.put("TESTCLIQ",     UNKNOWN_VALUE_IN_RESULT);
+        patientsAgeDiagnosisPut.put("VIOLET",       UNKNOWN_VALUE_IN_RESULT);
     }
 
 
     public final String getPatientsAge(String patientId) {
         final String res = patientsAge.get(patientId);
-        return null != res ? res : UNKNOWN_AGE;
+        return null != res ? res : UNKNOWN_VALUE_IN_RESULT;
     }
 
 
     public final String getPatientsAgeDiagnosisPut(String patientId) {
         final String res = patientsAgeDiagnosisPut.get(patientId);
-        return null != res ? res : UNKNOWN_AGE;
+        return null != res ? res : UNKNOWN_VALUE_IN_RESULT;
     }
 }

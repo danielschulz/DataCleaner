@@ -1,6 +1,5 @@
 package de.novensa.ai.dataanalysis.datacleaner.ubiquitous.subjectSpecificMappings;
 
-import de.novensa.ai.dataanalysis.datacleaner.aggregate.HealthState;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants;
 
 import java.util.TreeMap;
@@ -14,40 +13,68 @@ import java.util.TreeMap;
 public abstract class PatientsSexMapping extends PatientsAgeMapping {
 
     private final TreeMap<String, String> patientsSex;
+    private final TreeMap<String, String> patientsAmountMedicalTreatments;
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private final String FEMALE = "f";
+    private static final String FEMALE = "f";
+    private static final String MALE = "m";
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private final String MALE = "m";
-
-    private final String UNKNOWN_SEX = Constants.UNKNOWN_VALUE_IN_RESULT;
+    private static final String[] TREATMENTS = new String[] {"slightly", "few", "bunch", "massive"};
 
     public PatientsSexMapping() {
 
+        // patient´s sex
         this.patientsSex = new TreeMap<String, String>();
 
-        patientsSex.put("APPLE",         UNKNOWN_SEX);
-        patientsSex.put("CHERRY",        UNKNOWN_SEX);
-        patientsSex.put("CROCUS",        UNKNOWN_SEX);
-        patientsSex.put("DAFODIL",       UNKNOWN_SEX);
-        patientsSex.put("DAISY",         UNKNOWN_SEX);
-        patientsSex.put("FLOX",          UNKNOWN_SEX);
-        patientsSex.put("IRIS",          UNKNOWN_SEX);
-        patientsSex.put("LILLY",         UNKNOWN_SEX);
-        patientsSex.put("MAPLE",         UNKNOWN_SEX);
-        patientsSex.put("ORANGE",        UNKNOWN_SEX);
-        patientsSex.put("ORCHID",        UNKNOWN_SEX);
-        patientsSex.put("PEONY",         UNKNOWN_SEX);
-        patientsSex.put("ROSE",          UNKNOWN_SEX);
-        patientsSex.put("SUNFLOWER",     UNKNOWN_SEX);
-        patientsSex.put("SWEETPEA",      UNKNOWN_SEX);
-        patientsSex.put("TESTCLIQ",      UNKNOWN_SEX);
-        patientsSex.put("VIOLET",        UNKNOWN_SEX);
+        patientsSex.put("APPLE",         MALE);
+        patientsSex.put("CHERRY",        FEMALE);
+        patientsSex.put("CROCUS",        MALE);
+        patientsSex.put("DAFODIL",       MALE);
+        patientsSex.put("DAISY",         MALE);
+        patientsSex.put("FLOX",          MALE);
+        patientsSex.put("IRIS",          MALE);
+        patientsSex.put("LILLY",         FEMALE);
+        patientsSex.put("MAPLE",         MALE);
+        patientsSex.put("ORANGE",        MALE);
+        patientsSex.put("ORCHID",        MALE);
+        patientsSex.put("PEONY",         MALE);
+        patientsSex.put("ROSE",          MALE);
+        patientsSex.put("SUNFLOWER",     MALE);
+        patientsSex.put("SWEETPEA",      FEMALE);
+        patientsSex.put("TESTCLIQ",      Constants.UNKNOWN_VALUE_IN_RESULT);
+        patientsSex.put("VIOLET",        FEMALE);
+        
+        
+        // patient´s amount of medical treatments
+        this.patientsAmountMedicalTreatments = new TreeMap<String, String>();
+
+        patientsAmountMedicalTreatments.put("APPLE",         TREATMENTS[3]);
+        patientsAmountMedicalTreatments.put("CHERRY",        TREATMENTS[0]);
+        patientsAmountMedicalTreatments.put("CROCUS",        TREATMENTS[1]);
+        patientsAmountMedicalTreatments.put("DAFODIL",       TREATMENTS[0]);
+        patientsAmountMedicalTreatments.put("DAISY",         TREATMENTS[2]);
+        patientsAmountMedicalTreatments.put("FLOX",          TREATMENTS[3]);
+        patientsAmountMedicalTreatments.put("IRIS",          TREATMENTS[0]);
+        patientsAmountMedicalTreatments.put("LILLY",         TREATMENTS[3]);
+        patientsAmountMedicalTreatments.put("MAPLE",         TREATMENTS[1]);
+        patientsAmountMedicalTreatments.put("ORANGE",        TREATMENTS[2]);
+        patientsAmountMedicalTreatments.put("ORCHID",        TREATMENTS[1]);
+        patientsAmountMedicalTreatments.put("PEONY",         TREATMENTS[1]);
+        patientsAmountMedicalTreatments.put("ROSE",          TREATMENTS[1]);
+        patientsAmountMedicalTreatments.put("SUNFLOWER",     TREATMENTS[1]);
+        patientsAmountMedicalTreatments.put("SWEETPEA",      TREATMENTS[2]);
+        patientsAmountMedicalTreatments.put("TESTCLIQ",      Constants.UNKNOWN_VALUE_IN_RESULT);
+        patientsAmountMedicalTreatments.put("VIOLET",        TREATMENTS[1]);
     }
 
 
     public final String getPatientsSex(String patientId) {
-        return patientsSex.get(patientId);
+        final String pSex = patientsSex.get(patientId);
+        return null != pSex ? pSex : Constants.UNKNOWN_VALUE_IN_RESULT;
+    }
+
+
+    public final String getPatientsAmountMedicalTreatments(String patientId) {
+        final String medics = patientsAmountMedicalTreatments.get(patientId);
+        return null != medics ? medics : Constants.UNKNOWN_VALUE_IN_RESULT;
     }
 }

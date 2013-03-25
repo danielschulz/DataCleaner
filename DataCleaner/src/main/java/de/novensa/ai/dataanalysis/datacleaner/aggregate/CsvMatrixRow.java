@@ -58,10 +58,11 @@ public class CsvMatrixRow<T> {
         }
 
         medicalInfo.add(patientId);
-        medicalInfo.add((T) MAPPINGS.getHealthState((String) patientId));
         medicalInfo.add((T) MAPPINGS.getPatientsSex((String) patientId));
         medicalInfo.add((T) MAPPINGS.getPatientsAge((String) patientId));
         medicalInfo.add((T) MAPPINGS.getPatientsAgeDiagnosisPut((String) patientId));
+        medicalInfo.add((T) MAPPINGS.getPatientsAmountMedicalTreatments((String) patientId));
+        medicalInfo.add((T) MAPPINGS.getHealthState((String) patientId));
 
         if (0 <= medicalSubjectsPseudonym.length)
             medicalInfo.add(medicalSubjectsPseudonym[0]);

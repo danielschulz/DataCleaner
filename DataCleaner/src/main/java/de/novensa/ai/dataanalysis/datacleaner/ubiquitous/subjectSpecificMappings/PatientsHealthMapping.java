@@ -1,6 +1,7 @@
 package de.novensa.ai.dataanalysis.datacleaner.ubiquitous.subjectSpecificMappings;
 
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.HealthState;
+import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants;
 
 import java.util.TreeMap;
 
@@ -19,22 +20,22 @@ public abstract class PatientsHealthMapping extends PatientsSexMapping {
         this.patientToDiagnosis = new TreeMap<String, HealthState>();
 
         patientToDiagnosis.put("APPLE",         HealthState.healthy);
-        patientToDiagnosis.put("CHERRY",        HealthState.healthy);
-        patientToDiagnosis.put("CROCUS",        HealthState.healthy);
+        patientToDiagnosis.put("CHERRY",        HealthState.diagnosedPD);
+        patientToDiagnosis.put("CROCUS",        HealthState.diagnosedPD);
         patientToDiagnosis.put("DAFODIL",       HealthState.healthy);
-        patientToDiagnosis.put("DAISY",         HealthState.healthy);
-        patientToDiagnosis.put("FLOX",          HealthState.healthy);
-        patientToDiagnosis.put("IRIS",          HealthState.healthy);
+        patientToDiagnosis.put("DAISY",         HealthState.diagnosedPD);
+        patientToDiagnosis.put("FLOX",          HealthState.diagnosedPD);
+        patientToDiagnosis.put("IRIS",          HealthState.diagnosedPD);
         patientToDiagnosis.put("LILLY",         HealthState.healthy);
-        patientToDiagnosis.put("MAPLE",         HealthState.healthy);
+        patientToDiagnosis.put("MAPLE",         HealthState.diagnosedPD);
         patientToDiagnosis.put("ORANGE",        HealthState.healthy);
-        patientToDiagnosis.put("ORCHID",        HealthState.healthy);
-        patientToDiagnosis.put("PEONY",         HealthState.healthy);
+        patientToDiagnosis.put("ORCHID",        HealthState.diagnosedPD);
+        patientToDiagnosis.put("PEONY",         HealthState.diagnosedPD);
         patientToDiagnosis.put("ROSE",          HealthState.healthy);
         patientToDiagnosis.put("SUNFLOWER",     HealthState.healthy);
         patientToDiagnosis.put("SWEETPEA",      HealthState.healthy);
-        patientToDiagnosis.put("TESTCLIQ",      HealthState.healthy);
-        patientToDiagnosis.put("VIOLET",        HealthState.healthy);
+        patientToDiagnosis.put("TESTCLIQ",      HealthState.predictedPD);
+        patientToDiagnosis.put("VIOLET",        HealthState.diagnosedPD);
     }
 
     public final HealthState getHealthState(String patientId) {

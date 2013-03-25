@@ -11,7 +11,7 @@ import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants;
 public class Mappings extends PatientsHealthMapping {
 
     private static final String[] HEADER_ITEMS = new String[]{
-            "patientsId", "patientsSex", "patientsAge", "patientsAgeDiagnosisPut",
+            "patientsId", "patientsSex", "patientsAge", "patientsAgeDiagnosisPut", "medicalTreatments",
             "healthState", "HDL", "mediaType", "date", "time"
     };
 
