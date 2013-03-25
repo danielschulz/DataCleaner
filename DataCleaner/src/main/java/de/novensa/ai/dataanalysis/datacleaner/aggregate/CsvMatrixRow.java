@@ -49,37 +49,39 @@ public class CsvMatrixRow<T> {
 
         List<T> medicalInfo = new ArrayList<T>(MEDICAL_INFO_ITEM_COUNT + medicalSubjectsPseudonym.length - 1);
 
-        if (null != medicalSubjectsPseudonym) {
 
 
-            T patientId = medicalSubjectsPseudonym[2];
-            if (MAPPINGS.hasPatientIdentificatorIgnoringSynonyms((String) patientId)) {
-                patientId = ((T) MAPPINGS.getPatientIdentificatorIgnoringSynonyms((String) patientId));
-            }
 
-            medicalInfo.add(patientId);
-            medicalInfo.add((T) MAPPINGS.getHealthState((String) patientId));
-            medicalInfo.add((T) MAPPINGS.getPatientsSex((String) patientId));
-
-            if (0 <= medicalSubjectsPseudonym.length)
-                medicalInfo.add(medicalSubjectsPseudonym[0]);
-
-            if (1 <= medicalSubjectsPseudonym.length)
-                medicalInfo.add(medicalSubjectsPseudonym[1]);
-
-            // leave out pseudonym -- this was inserted above because duplicate id where mapped back to unique entities
-
-            if (3 <= medicalSubjectsPseudonym.length)
-                medicalInfo.add(medicalSubjectsPseudonym[3]);
-
-            if (4 <= medicalSubjectsPseudonym.length) {
-                String t = (String) medicalSubjectsPseudonym[4];
-                if (t.endsWith("." + CsvFileFilter.DEFAULT_FILE_ENDING)) {
-                    t = t.split("\\.")[0];
-                }
-                medicalInfo.add((T) t);
-            }
+        T patientId = medicalSubjectsPseudonym[2];
+        if (MAPPINGS.hasPatientIdentificatorIgnoringSynonyms((String) patientId)) {
+            patientId = ((T) MAPPINGS.getPatientIdentificatorIgnoringSynonyms((String) patientId));
         }
+
+        medicalInfo.add(patientId);
+        medicalInfo.add((T) MAPPINGS.getHealthState((String) patientId));
+        medicalInfo.add((T) MAPPINGS.getPatientsSex((String) patientId));
+        medicalInfo.add((T) MAPPINGS.getPatientsAge((String) patientId));
+        medicalInfo.add((T) MAPPINGS.getPatientsAgeDiagnosisPut((String) patientId));
+
+        if (0 <= medicalSubjectsPseudonym.length)
+            medicalInfo.add(medicalSubjectsPseudonym[0]);
+
+        if (1 <= medicalSubjectsPseudonym.length)
+            medicalInfo.add(medicalSubjectsPseudonym[1]);
+
+        // leave out pseudonym -- this was inserted above because duplicate id where mapped back to unique entities
+
+        if (3 <= medicalSubjectsPseudonym.length)
+            medicalInfo.add(medicalSubjectsPseudonym[3]);
+
+        if (4 <= medicalSubjectsPseudonym.length) {
+            String t = (String) medicalSubjectsPseudonym[4];
+            if (t.endsWith("." + CsvFileFilter.DEFAULT_FILE_ENDING)) {
+                t = t.split("\\.")[0];
+            }
+            medicalInfo.add((T) t);
+        }
+
 
         return medicalInfo;
     }

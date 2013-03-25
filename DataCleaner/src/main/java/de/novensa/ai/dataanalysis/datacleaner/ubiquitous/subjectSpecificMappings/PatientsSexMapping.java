@@ -11,7 +11,7 @@ import java.util.TreeMap;
  * @author Daniel Schulz
  */
 @SuppressWarnings("UnusedDeclaration")
-public abstract class PatientsSexMapping extends SynonymToPatientIdentificationMapping {
+public abstract class PatientsSexMapping extends PatientsAgeMapping {
 
     private final TreeMap<String, String> patientsSex;
 
