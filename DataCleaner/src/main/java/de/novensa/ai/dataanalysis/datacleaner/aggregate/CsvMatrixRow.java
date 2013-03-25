@@ -1,5 +1,6 @@
 package de.novensa.ai.dataanalysis.datacleaner.aggregate;
 
+import de.novensa.ai.dataanalysis.datacleaner.io.fileFilter.CsvFileFilter;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.subjectSpecificMappings.Mappings;
 
@@ -71,8 +72,13 @@ public class CsvMatrixRow<T> {
             if (3 <= medicalSubjectsPseudonym.length)
                 medicalInfo.add(medicalSubjectsPseudonym[3]);
 
-            if (4 <= medicalSubjectsPseudonym.length)
-                medicalInfo.add(medicalSubjectsPseudonym[4]);
+            if (4 <= medicalSubjectsPseudonym.length) {
+                String t = (String) medicalSubjectsPseudonym[4];
+                if (t.endsWith("." + CsvFileFilter.DEFAULT_FILE_ENDING)) {
+                    t = t.split("\\.")[0];
+                }
+                medicalInfo.add((T) t);
+            }
         }
 
         return medicalInfo;
