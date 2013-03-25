@@ -5,6 +5,7 @@ import com.googlecode.jcsv.reader.CSVReader;
 import com.googlecode.jcsv.reader.internal.CSVReaderBuilder;
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvDataFrame;
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvMatrixRow;
+import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Context;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.ErrorMessages;
 import de.novensa.ai.dataanalysis.datacleaner.util.ExtractionDeletionInstance;
@@ -61,9 +62,9 @@ public class LoadCsvContents<T> extends Context {
                             file.getCanonicalPath(), workingDirectoryPath, workingDirectoryLength);
                     //noinspection unchecked
                     T[] fileNameInfo = null;
-                    String[] keyStrings = key.split("\\\\");
+                    String[] keyStrings = key.split(DOUBLE_BACK_SLASH);
                     if (2 <= keyStrings.length) {
-                        String[] strings = keyStrings[2].split("\\.");
+                        String[] strings = keyStrings[2].split(DOUBLE_BACK_SLASH + ".");
                         if (1 <= strings.length) {
                             fileNameInfo = (T[]) strings[0].split("_");
 

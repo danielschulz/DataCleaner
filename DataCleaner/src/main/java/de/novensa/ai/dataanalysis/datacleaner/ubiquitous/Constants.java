@@ -31,38 +31,39 @@ public interface Constants {
     public static final String HEADER_SIGNATURES_DELIMITER = ";";
 
     // command line interface
-    String WORKING_DIRECTORY_OPTION_DESCRIPTION = "This option specifies the folder all your data to read from " +
+    final String WORKING_DIRECTORY_OPTION_DESCRIPTION = "This option specifies the folder all your data to read from " +
             "and to write in. This is the directory everything happens on file system basis. If this value isn´t " +
             "specified Java´s 'Constants.WORKING_DIRECTORY' is going to be taken. The " +
             "program arguments may be passed like <code>-workingDirectory \"~/Documents/\"</code> to the " +
             "IOMain.java -- to me this Stackoverflow-Thread was very helpful: " +
             "http://stackoverflow.com/questions/5585634/apache-commons-cli-option-type-and-default-value";
-    String WORKING_DIRECTORY_OPTION_ARGUMENT_NAME = "workingDirectory";
-    String WORKING_DIRECTORY_LONG_OPT_VALUE = WORKING_DIRECTORY_OPTION_ARGUMENT_NAME;
+    final String WORKING_DIRECTORY_OPTION_ARGUMENT_NAME = "workingDirectory";
+    final String WORKING_DIRECTORY_LONG_OPT_VALUE = WORKING_DIRECTORY_OPTION_ARGUMENT_NAME;
 
-    String RESULTS_DIRECTORY_OPTION_DESCRIPTION = "This option specifies the folder all your CSV result files will " +
+    final String RESULTS_DIRECTORY_OPTION_DESCRIPTION = "This option specifies the folder all your CSV result files will " +
             "be written to. This is meant to be an existing folder within the workingDirectory. If it does not exist " +
             "it will be created there. If it is not present the Constants.RESULTS_DIRECTORY from Java will be taken. " +
             "The program arguments may be passed like <code>-resultsDirectory \"results\"</code>.";
-    String RESULTS_DIRECTORY_OPTION_ARGUMENT_NAME = "resultsDirectory";
-    String RESULTS_DIRECTORY_LONG_OPT_VALUE = RESULTS_DIRECTORY_OPTION_ARGUMENT_NAME;
+    final String RESULTS_DIRECTORY_OPTION_ARGUMENT_NAME = "resultsDirectory";
+    final String RESULTS_DIRECTORY_LONG_OPT_VALUE = RESULTS_DIRECTORY_OPTION_ARGUMENT_NAME;
 
-    String FRACTION_FILES_TO_TAKE_OPTION_DESCRIPTION = "This option specifies the fraction of file to choose " +
+    final String FRACTION_FILES_TO_TAKE_OPTION_DESCRIPTION = "This option specifies the fraction of file to choose " +
             "and process from the working directory. Choose 1.0 to take everything and zeo to leave out all " +
             "files. The FractionFileFilter therefore will only be applied for any value in (0...1) -- mathematically " +
             "except the borders zero and one.";
-    String FRACTION_FILES_TO_TAKE_OPTION_ARGUMENT_NAME = "fractionFilesToTake";
-    String FRACTION_FILES_TO_TAKE_LONG_OPT_VALUE = FRACTION_FILES_TO_TAKE_OPTION_ARGUMENT_NAME;
+    final String FRACTION_FILES_TO_TAKE_OPTION_ARGUMENT_NAME = "fractionFilesToTake";
+    final String FRACTION_FILES_TO_TAKE_LONG_OPT_VALUE = FRACTION_FILES_TO_TAKE_OPTION_ARGUMENT_NAME;
 
-    String DOUBLE_BACK_SLASH = "\\";
-    String LINE_BREAK = System.getProperty("line.separator");
+    final String FILE_SEPARATOR = System.getProperty("file.separator");
+    final String DOUBLE_BACK_SLASH = FILE_SEPARATOR + FILE_SEPARATOR;
+    final String LINE_BREAK = System.getProperty("line.separator");
 
-    String RESULTS_FILE_NAME_PATTERN = "result_%s." + CsvFileFilter.DEFAULT_FILE_ENDING;
-    String UNKNOWN_VALUE_IN_RESULT = "NA";
+    final String RESULTS_FILE_NAME_PATTERN = "result_%s." + CsvFileFilter.DEFAULT_FILE_ENDING;
+    final String UNKNOWN_VALUE_IN_RESULT = "NA";
 
     @SuppressWarnings("UnusedDeclaration")
-    String ERROR_FILE_NAME = "errors.txt";
-    String RUNTIME_INFO_FILE_NAME = "runtimeInfo.txt";
+    final String ERROR_FILE_NAME = "errors.txt";
+    final String RUNTIME_INFO_FILE_NAME = "runtimeInfo.txt";
     public static final String RUNTIME_INFO_RESULT_TEXT =
             "process started, process ended, time difference" + LINE_BREAK + "%s, %s, %s";
 
@@ -70,5 +71,5 @@ public interface Constants {
             "allocated files", "archives extracted", "read raw exploded files and mapped them",
             "packed exploded files into data frames", "results written", "cleaned up working directory"};
     final Iterator<String> WORKING_STATES = Arrays.asList(WORKING_STATE_ITEM_LIST).iterator();
-    String WORKING_STATE_TEMPLATE = "%s of %s done -- %s \t\t\t\t\t (@ %s ms to epoch)";
+    final String WORKING_STATE_TEMPLATE = "%s of %s done -- %s \t\t\t\t\t (@ %s ms to epoch)";
 }
