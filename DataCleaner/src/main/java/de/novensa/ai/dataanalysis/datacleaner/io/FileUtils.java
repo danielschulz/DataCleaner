@@ -146,9 +146,9 @@ public class FileUtils {
                 for (T item : row.getCells()) {
                     // 0..(n-1)-th cell and n-th cell as well
                     if (cellBeforeLineBreak != i) {
-                        res.append(item).append(HEADER_SIGNATURES_DELIMITER);
+                        res.append(getItem(item)).append(HEADER_SIGNATURES_DELIMITER);
                     } else {
-                        res.append(item);
+                        res.append(getItem(item));
                     }
 
                     i++;
@@ -163,6 +163,10 @@ public class FileUtils {
         }
 
         return res;
+    }
+
+    private static <T> CharSequence getItem(T item) {
+        return null != item ? item.toString() : Constants.UNKNOWN_VALUE_IN_RESULT;
     }
 
 

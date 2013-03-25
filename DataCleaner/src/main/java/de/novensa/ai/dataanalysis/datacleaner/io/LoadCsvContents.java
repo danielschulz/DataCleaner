@@ -60,7 +60,15 @@ public class LoadCsvContents<T> extends Context {
                     String key = surefireRelativePathPasting(
                             file.getCanonicalPath(), workingDirectoryPath, workingDirectoryLength);
                     //noinspection unchecked
-                    T[] fileNameInfo = (T[]) key.split("\\\\")[2].split("\\.")[0].split("_");
+                    T[] fileNameInfo = null;
+                    String[] keyStrings = key.split("\\\\");
+                    if (2 <= keyStrings.length) {
+                        String[] strings = keyStrings[2].split("\\.");
+                        if (1 <= strings.length) {
+                            fileNameInfo = (T[]) strings[0].split("_");
+                        }
+                    }
+
                     //noinspection unchecked
                     CsvDataFrame<T> csvDataFrame = CsvDataFrame.getCsvDataFrame(reader, fileNameInfo);
 

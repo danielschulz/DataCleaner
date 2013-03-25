@@ -43,20 +43,32 @@ public class CsvMatrixRow<T> {
     private List<T> getMedicalInfo(final T[] medicalSubjectsPseudonym) {
         List<T> medicalInfo = new ArrayList<T>(MEDICAL_INFO_ITEM_COUNT + medicalSubjectsPseudonym.length - 1);
 
-        T patientId = medicalSubjectsPseudonym[2];
-        if (MAPPINGS.hasPatientIdentificatorIgnoringSynonyms((String) patientId)) {
-            patientId = ((T) MAPPINGS.getPatientIdentificatorIgnoringSynonyms((String) patientId));
+        if (null != medicalSubjectsPseudonym) {
+
+
+            T patientId = medicalSubjectsPseudonym[2];
+            if (MAPPINGS.hasPatientIdentificatorIgnoringSynonyms((String) patientId)) {
+                patientId = ((T) MAPPINGS.getPatientIdentificatorIgnoringSynonyms((String) patientId));
+            }
+
+            medicalInfo.add(patientId);
+            medicalInfo.add((T) MAPPINGS.getHealthState((String) patientId));
+            medicalInfo.add((T) MAPPINGS.getPatientsSex((String) patientId));
+
+            if (0 <= medicalSubjectsPseudonym.length)
+                medicalInfo.add(medicalSubjectsPseudonym[0]);
+
+            if (1 <= medicalSubjectsPseudonym.length)
+                medicalInfo.add(medicalSubjectsPseudonym[1]);
+
+            // leave out pseudonym -- this was inserted above because duplicate id where mapped back to unique entities
+
+            if (3 <= medicalSubjectsPseudonym.length)
+                medicalInfo.add(medicalSubjectsPseudonym[3]);
+
+            if (4 <= medicalSubjectsPseudonym.length)
+                medicalInfo.add(medicalSubjectsPseudonym[4]);
         }
-
-        medicalInfo.add(patientId);
-        medicalInfo.add((T) MAPPINGS.getHealthState((String) patientId));
-        medicalInfo.add((T) MAPPINGS.getPatientsSex((String) patientId));
-
-        medicalInfo.add(medicalSubjectsPseudonym[0]);
-        medicalInfo.add(medicalSubjectsPseudonym[1]);
-        // leave out pseudonym -- this was inserted above because duplicate id where mapped back to unique entities
-        medicalInfo.add(medicalSubjectsPseudonym[3]);
-        medicalInfo.add(medicalSubjectsPseudonym[4]);
 
         return medicalInfo;
     }
