@@ -2,6 +2,7 @@ package de.novensa.ai.dataanalysis.datacleaner.io;
 
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvDataFrame;
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvMatrixRow;
+import de.novensa.ai.dataanalysis.datacleaner.aggregate.RuntimeInfo;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.Constants;
 import de.novensa.ai.dataanalysis.datacleaner.ubiquitous.subjectSpecificMappings.Mappings;
 
@@ -25,6 +26,28 @@ import static org.apache.commons.io.IOUtils.closeQuietly;
 public class FileUtils {
 
     private static final int START_COUNT_WRITE_CSV_CELLS = 0;
+
+    public static <T> List<File> writeFiles(final File resultsDirectory, final RuntimeInfo<T> runtimeInfo)
+            throws IOException {
+
+        List<File> files = null != runtimeInfo && null != runtimeInfo.getProcessedMap() ?
+                writeFiles(resultsDirectory, runtimeInfo.getProcessedMap()) : null;
+
+        writeFile(resultsDirectory, Constants.RUNTIME_INFO_FILE_NAME, getRuntimeInfo(runtimeInfo));
+
+        return files;
+    }
+
+    private static <T> CharSequence getRuntimeInfo(RuntimeInfo<T> runtimeInfo) {
+        StringBuilder res = new StringBuilder(Constants.RUNTIME_INFO_FILE_INIT_SIZE);
+        if (null != runtimeInfo) {
+
+            return String.format(Constants.RUNTIME_INFO_RESULT_TEXT,
+                    runtimeInfo.getStartTime(), runtimeInfo.getEndTime(), runtimeInfo.getDiffTimes());
+        }
+
+        return res;
+    }
 
     public static <T> List<File> writeFiles(final File resultsDirectory, final Map<String, CsvDataFrame<T>> map)
             throws IOException {

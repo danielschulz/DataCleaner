@@ -21,6 +21,8 @@ public interface Constants {
 
     // technical constants
     public static final int BUFFER_SIZE = 4*1024*1024;     // size of buffer to load and write files with
+    public static final int RUNTIME_INFO_FILE_INIT_SIZE = 1024;
+
     // delimiter character(s) used internally to aggregate the signature id
     public static final String HEADER_SIGNATURES_DELIMITER = ";";
 
@@ -53,4 +55,9 @@ public interface Constants {
 
     String RESULTS_FILE_NAME_PATTERN = "result_%s." + CsvFileFilter.DEFAULT_FILE_ENDING;
     String UNKNOWN_VALUE_IN_RESULT = "NA";
+
+    String ERROR_FILE_NAME = "errors.txt";
+    String RUNTIME_INFO_FILE_NAME = "runtimeInfo.txt";
+    public static final String RUNTIME_INFO_RESULT_TEXT =
+            "process started, process ended, time difference" + LINE_BREAK + "%s, %s, %s";
 }

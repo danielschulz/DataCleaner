@@ -2,6 +2,7 @@ package de.novensa.ai.dataanalysis.datacleaner.io;
 
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvDataFrame;
 import de.novensa.ai.dataanalysis.datacleaner.aggregate.CsvMatrix;
+import de.novensa.ai.dataanalysis.datacleaner.aggregate.RuntimeInfo;
 import de.novensa.ai.dataanalysis.datacleaner.io.fileFilter.CombinedFileFilter;
 import de.novensa.ai.dataanalysis.datacleaner.io.fileFilter.FractionFileFilter;
 import de.novensa.ai.dataanalysis.datacleaner.io.fileFilter.TarBz2ArchivesFileFilter;
@@ -32,12 +33,15 @@ public class IOMain <T> extends Context {
 
     private final SkyContext context;
     private static final TarBz2ArchivesFileFilter TAR_BZ_2_ARCHIVES_FILE_FILTER = new TarBz2ArchivesFileFilter();
+    private final long startTime;
 
 
-    public IOMain(Triplet<String, String, FractionFileFilter> directories) {
+    public IOMain(Triplet<String, String, FractionFileFilter> directories, final long startTime) {
         if (null == directories) {
             throw new IllegalArgumentException(ErrorMessages.NULL_INITIALIZATION_NOT_ALLOWED_HERE);
         }
+
+        this.startTime = startTime;
 
         final String workingDir = directories.getValue0();
         final String resultsDir = directories.getValue1();
@@ -57,17 +61,10 @@ public class IOMain <T> extends Context {
         this.fractionFileFilter = directories.getValue2();
     }
 
-    private static String getCanonicalForm(final String dir) {
-
-        try {
-            return (new File(dir)).getCanonicalPath() + DOUBLE_BACK_SLASH;
-        } catch (IOException ioe) {
-            return null;
-        }
-    }
 
     public static void main(String[] args) throws IOException, ParseException {
-        IOMain ioMain = new IOMain(CommandLineUtils.parseCommandLine(args));
+        final long startTime = System.currentTimeMillis();
+        IOMain ioMain = new IOMain(CommandLineUtils.parseCommandLine(args), startTime);
         ioMain.processWorkingDirectory();
     }
 
@@ -116,7 +113,11 @@ public class IOMain <T> extends Context {
         final List<File> folders = resultsDirJustCreated ?
                 new ArrayList<File>(Arrays.asList(this.resultsDirectory)) : null;
 
-        final List<File> writtenFiles = FileUtils.writeFiles(this.resultsDirectory, processedMap);
+        final long endTime = System.currentTimeMillis();
+        final long diffTimes = endTime - this.startTime;
+        final RuntimeInfo<T> runtimeInfo = new RuntimeInfo<T>(this.startTime, endTime, diffTimes, processedMap);
+
+        final List<File> writtenFiles = FileUtils.writeFiles(this.resultsDirectory, runtimeInfo);
 
 
         // clean up again
@@ -173,6 +174,16 @@ public class IOMain <T> extends Context {
         }
 
         return new CsvDataFrame(firstBucketPair.getValue1().getHeader(), new CsvMatrix(dataCollection));
+    }
+
+
+    private static String getCanonicalForm(final String dir) {
+
+        try {
+            return (new File(dir)).getCanonicalPath() + DOUBLE_BACK_SLASH;
+        } catch (IOException ioe) {
+            return null;
+        }
     }
 
 
