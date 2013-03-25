@@ -98,7 +98,7 @@ public class CsvDataFrame<T> {
     }
 
     public static <T> CsvDataFrame<T> getCsvDataFrame(final CSVReader<CsvMatrixRow<T>> reader, final T[] fileNameInfo)
-            throws IOException {
+            throws IOException, IllegalStateException {
 
         List<String> header = reader.readHeader();
         CsvMatrix<T> data = new CsvMatrix<T>(reader, fileNameInfo);
