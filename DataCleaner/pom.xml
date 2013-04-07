@@ -21,11 +21,33 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>de.novensa.techniques.maven.plugin.web.as.WebSphere</groupId>
+                <artifactId>WebSphereClearCaches</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <id>clearingWebSphereCaches</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>clearCaches</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <wsHome>D:\PUBLIC\CI-00\Servers\WAS-6.1\AppServer</wsHome>
+                    <wsVersion>6.1</wsVersion>
+                    <!-- IBM name definitions -->
+                    <appServerProfile>AppSrv01</appServerProfile>
+                    <appServer>server1</appServer>
+                    <cell>MSGN539KNode01Cell</cell>
+                    <node>MSGN539KNode01</node>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+
 
 
     <dependencies>
